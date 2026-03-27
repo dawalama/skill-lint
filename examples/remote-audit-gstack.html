@@ -6,6 +6,7 @@
 <title>Skill Audit Report</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #f8f9fa; color: #1a1a2e; margin: 0; padding: 2rem;
@@ -96,9 +97,35 @@
     padding: 0.5rem 0.75rem; border-bottom: 1px solid #f1f5f9;
   }
   .avg-score { font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; }
+  .summary-table a { color: #2563eb; text-decoration: none; }
+  .summary-table a:hover { text-decoration: underline; }
   footer {
     text-align: center; color: #94a3b8; font-size: 0.75rem;
     margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;
+  }
+  /* Mobile responsive */
+  @media (max-width: 640px) {
+    body { padding: 0.75rem; }
+    .hide-mobile { display: none; }
+    h1 { font-size: 1.2rem; }
+    .card { padding: 1rem; }
+    .card-title { flex-wrap: wrap; gap: 0.5rem; }
+    .card-title h2 { font-size: 1.05rem; }
+    .card-meta { flex-wrap: wrap; gap: 0.4rem; }
+    .score-label { margin-left: 0; }
+    .dim-info { flex-wrap: wrap; gap: 0.25rem; }
+    .dim-name { min-width: auto; font-size: 0.8rem; }
+    .dim-score { min-width: auto; font-size: 0.8rem; }
+    .dim-weight { font-size: 0.7rem; }
+    .bar-track { height: 6px; }
+    .audit-meta { font-size: 0.75rem; word-break: break-all; }
+    .audit-source { font-size: 0.75rem; }
+    .summary-section { padding: 1rem; overflow-x: auto; }
+    .summary-table { font-size: 0.75rem; }
+    .summary-table th, .summary-table td { padding: 0.35rem 0.4rem; }
+    .detail-list li, .suggestion-list li { font-size: 0.78rem; }
+    .llm-group li { font-size: 0.78rem; }
+    .llm-fix { font-size: 0.75rem; }
   }
   @media print {
     body { background: #fff; padding: 0.5rem; }
@@ -117,218 +144,218 @@
   <h2>Summary</h2>
   <table class="summary-table">
     <thead>
-      <tr><th>File</th><th>Type</th><th>Name</th><th>Grade</th><th>Score</th><th>Issues</th></tr>
+      <tr><th>File</th><th class="hide-mobile">Type</th><th>Name</th><th>Grade</th><th>Score</th><th class="hide-mobile">Issues</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>browse</td>
+        <td><a href="#browse">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#browse">browse</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">74%</td>
-        <td style="text-align:right">5</td>
+        <td class="hide-mobile" style="text-align:right">5</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>setup-browser-cookies</td>
+        <td><a href="#setup-browser-cookies">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#setup-browser-cookies">setup-browser-cookies</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">73%</td>
-        <td style="text-align:right">6</td>
+        <td class="hide-mobile" style="text-align:right">6</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>freeze</td>
+        <td><a href="#freeze">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#freeze">freeze</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">70%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>gstack</td>
+        <td><a href="#gstack">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#gstack">gstack</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>autoplan</td>
+        <td><a href="#autoplan">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#autoplan">autoplan</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>codex</td>
+        <td><a href="#codex">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#codex">codex</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>design-consultation</td>
+        <td><a href="#design-consultation">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#design-consultation">design-consultation</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>document-release</td>
+        <td><a href="#document-release">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#document-release">document-release</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>gstack-upgrade</td>
+        <td><a href="#gstack-upgrade">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#gstack-upgrade">gstack-upgrade</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>investigate</td>
+        <td><a href="#investigate">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#investigate">investigate</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>office-hours</td>
+        <td><a href="#office-hours">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#office-hours">office-hours</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>plan-ceo-review</td>
+        <td><a href="#plan-ceo-review">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#plan-ceo-review">plan-ceo-review</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>plan-design-review</td>
+        <td><a href="#plan-design-review">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#plan-design-review">plan-design-review</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>plan-eng-review</td>
+        <td><a href="#plan-eng-review">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#plan-eng-review">plan-eng-review</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>review</td>
+        <td><a href="#review">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#review">review</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>ship</td>
+        <td><a href="#ship">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#ship">ship</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>connect-chrome</td>
+        <td><a href="#connect-chrome">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#connect-chrome">connect-chrome</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">64%</td>
-        <td style="text-align:right">9</td>
+        <td class="hide-mobile" style="text-align:right">9</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>guard</td>
+        <td><a href="#guard">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#guard">guard</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">59%</td>
-        <td style="text-align:right">9</td>
+        <td class="hide-mobile" style="text-align:right">9</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>setup-deploy</td>
+        <td><a href="#setup-deploy">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#setup-deploy">setup-deploy</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">58%</td>
-        <td style="text-align:right">10</td>
+        <td class="hide-mobile" style="text-align:right">10</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>design-review</td>
+        <td><a href="#design-review">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#design-review">design-review</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">57%</td>
-        <td style="text-align:right">9</td>
+        <td class="hide-mobile" style="text-align:right">9</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>retro</td>
+        <td><a href="#retro">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#retro">retro</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">56%</td>
-        <td style="text-align:right">10</td>
+        <td class="hide-mobile" style="text-align:right">10</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>land-and-deploy</td>
+        <td><a href="#land-and-deploy">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#land-and-deploy">land-and-deploy</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">55%</td>
-        <td style="text-align:right">9</td>
+        <td class="hide-mobile" style="text-align:right">9</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>benchmark</td>
+        <td><a href="#benchmark">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#benchmark">benchmark</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">54%</td>
-        <td style="text-align:right">10</td>
+        <td class="hide-mobile" style="text-align:right">10</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>careful</td>
+        <td><a href="#careful">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#careful">careful</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">54%</td>
-        <td style="text-align:right">12</td>
+        <td class="hide-mobile" style="text-align:right">12</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>qa</td>
+        <td><a href="#qa">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#qa">qa</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">54%</td>
-        <td style="text-align:right">11</td>
+        <td class="hide-mobile" style="text-align:right">11</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>qa-only</td>
+        <td><a href="#qa-only">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#qa-only">qa-only</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">54%</td>
-        <td style="text-align:right">11</td>
+        <td class="hide-mobile" style="text-align:right">11</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>canary</td>
+        <td><a href="#canary">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#canary">canary</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">52%</td>
-        <td style="text-align:right">11</td>
+        <td class="hide-mobile" style="text-align:right">11</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>unfreeze</td>
+        <td><a href="#unfreeze">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#unfreeze">unfreeze</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">50%</td>
-        <td style="text-align:right">12</td>
+        <td class="hide-mobile" style="text-align:right">12</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>cso</td>
+        <td><a href="#cso">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#cso">cso</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#dc2626">F</span></td>
         <td style="text-align:right">42%</td>
-        <td style="text-align:right">13</td>
+        <td class="hide-mobile" style="text-align:right">13</td>
       </tr>
     </tbody>
   </table>
   <p class="avg-score">29 files analyzed &mdash; average score: 61%</p>
 </div>
-<div class="card">
+<div class="card" id="gstack">
   <div class="card-header">
     <div class="card-title">
       <h2>gstack</h2>
@@ -587,7 +614,7 @@ $B html @e2        ...</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="autoplan">
   <div class="card-header">
     <div class="card-title">
       <h2>autoplan</h2>
@@ -814,7 +841,7 @@ TIMESTAMP=$(date -u +%Y-%m...</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="benchmark">
   <div class="card-header">
     <div class="card-title">
       <h2>benchmark</h2>
@@ -1015,7 +1042,7 @@ $B eval &quot;(() =&gt; { const r = performance.getEntriesByType(&#x27;resource&
   </div>
   <p class="summary">Needs work skill with 10 suggestions for improvement (weakest: actionability)</p>
 </div>
-<div class="card">
+<div class="card" id="browse">
   <div class="card-header">
     <div class="card-title">
       <h2>browse</h2>
@@ -1253,7 +1280,7 @@ $B html @e2        ...</li>
   </div>
   <p class="summary">Acceptable skill with 5 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="canary">
   <div class="card-header">
     <div class="card-title">
       <h2>canary</h2>
@@ -1457,7 +1484,7 @@ mkdir -p ~/.g...</li>
   </div>
   <p class="summary">Needs work skill with 11 suggestions for improvement (weakest: actionability)</p>
 </div>
-<div class="card">
+<div class="card" id="careful">
   <div class="card-header">
     <div class="card-title">
       <h2>careful</h2>
@@ -1634,7 +1661,7 @@ echo &#x27;{&quot;skill&quot;:&quot;careful&quot;,&quot;ts&quot;:&quot;&#x27;$(d
   </div>
   <p class="summary">Needs work skill with 12 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="codex">
   <div class="card-header">
     <div class="card-title">
       <h2>codex</h2>
@@ -1878,7 +1905,7 @@ mkdir -p .context</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="connect-chrome">
   <div class="card-header">
     <div class="card-title">
       <h2>connect-chrome</h2>
@@ -2101,7 +2128,7 @@ $B snapshot -i</li>
   </div>
   <p class="summary">Needs work skill with 9 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="cso">
   <div class="card-header">
     <div class="card-title">
       <h2>cso</h2>
@@ -2321,7 +2348,7 @@ mkdir -p .gstack/security-reports</li>
   </div>
   <p class="summary">Poor skill with 13 suggestions for improvement (weakest: trust)</p>
 </div>
-<div class="card">
+<div class="card" id="design-consultation">
   <div class="card-header">
     <div class="card-title">
       <h2>design-consultation</h2>
@@ -2556,7 +2583,7 @@ open &quot;$PREVIEW_FILE&quot;</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="design-review">
   <div class="card-header">
     <div class="card-title">
       <h2>design-review</h2>
@@ -2829,7 +2856,7 @@ $B screenshot &quot;$REPORT_DIR/screenshots/finding-NNN-a...</li>
   </div>
   <p class="summary">Needs work skill with 9 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="document-release">
   <div class="card-header">
     <div class="card-title">
       <h2>document-release</h2>
@@ -3062,7 +3089,7 @@ rm -f /tmp/gstack-pr-body-$$.md</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="freeze">
   <div class="card-header">
     <div class="card-title">
       <h2>freeze</h2>
@@ -3225,7 +3252,7 @@ STATE_DIR=&quot;${CLAUDE_PLUGIN_DATA:-$HOME/.gstac...</li>
   </div>
   <p class="summary">Acceptable skill with 7 suggestions for improvement</p>
 </div>
-<div class="card">
+<div class="card" id="gstack-upgrade">
   <div class="card-header">
     <div class="card-title">
       <h2>gstack-upgrade</h2>
@@ -3437,7 +3464,7 @@ LOC...</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="guard">
   <div class="card-header">
     <div class="card-title">
       <h2>guard</h2>
@@ -3597,7 +3624,7 @@ STATE_DIR=&quot;${CLAUDE_PLUGIN_DATA:-$HOME/.gstac...</li>
   </div>
   <p class="summary">Needs work skill with 9 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="investigate">
   <div class="card-header">
     <div class="card-title">
       <h2>investigate</h2>
@@ -3797,7 +3824,7 @@ echo...</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="land-and-deploy">
   <div class="card-header">
     <div class="card-title">
       <h2>land-and-deploy</h2>
@@ -4139,7 +4166,7 @@ mkdir -p ~/.g...</li>
   </div>
   <p class="summary">Needs work skill with 9 suggestions for improvement (weakest: trust)</p>
 </div>
-<div class="card">
+<div class="card" id="office-hours">
   <div class="card-header">
     <div class="card-title">
       <h2>office-hours</h2>
@@ -4387,7 +4414,7 @@ echo &#x27;{&quot;skill&quot;:&quot;office-hours&quot;,&quot;ts&quot;:&quot;&#x2
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="plan-ceo-review">
   <div class="card-header">
     <div class="card-title">
       <h2>plan-ceo-review</h2>
@@ -4627,7 +4654,7 @@ eval &quot;$(~/.claude/skill...</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="plan-design-review">
   <div class="card-header">
     <div class="card-title">
       <h2>plan-design-review</h2>
@@ -4848,7 +4875,7 @@ cat &quot;$TMPERR_DESIGN&quot; &amp;&amp; rm -f &quot;$TMPERR_DESIGN&quot;</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="plan-eng-review">
   <div class="card-header">
     <div class="card-title">
       <h2>plan-eng-review</h2>
@@ -5071,7 +5098,7 @@ cat &quot;$TMPERR_PV&quot;</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="qa">
   <div class="card-header">
     <div class="card-title">
       <h2>qa</h2>
@@ -5345,7 +5372,7 @@ eval &quot;$(~/.claude/skills/gstack/bin/gstack-slug 2&gt;/dev/null)&quot; &amp;
   </div>
   <p class="summary">Needs work skill with 11 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="qa-only">
   <div class="card-header">
     <div class="card-title">
       <h2>qa-only</h2>
@@ -5574,7 +5601,7 @@ eval &quot;$(~/.claude/skills/gstack/bin/gstack-slug 2&gt;/dev/null)&quot; &amp;
   </div>
   <p class="summary">Needs work skill with 11 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="retro">
   <div class="card-header">
     <div class="card-title">
       <h2>retro</h2>
@@ -5810,7 +5837,7 @@ today=$(date +%Y-%m-%d)...</li>
   </div>
   <p class="summary">Needs work skill with 10 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="review">
   <div class="card-header">
     <div class="card-title">
       <h2>review</h2>
@@ -6067,7 +6094,7 @@ _REPO_ROOT=$(git rev-parse --sh...</li>
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="setup-browser-cookies">
   <div class="card-header">
     <div class="card-title">
       <h2>setup-browser-cookies</h2>
@@ -6261,7 +6288,7 @@ $B cookies</li>
   </div>
   <p class="summary">Acceptable skill with 6 suggestions for improvement</p>
 </div>
-<div class="card">
+<div class="card" id="setup-deploy">
   <div class="card-header">
     <div class="card-title">
       <h2>setup-deploy</h2>
@@ -6445,7 +6472,7 @@ curl -sf &quot;{health-check-url}&quot; -o /dev/null -w &quot;%{http_code}&quot;
   </div>
   <p class="summary">Needs work skill with 10 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="ship">
   <div class="card-header">
     <div class="card-title">
       <h2>ship</h2>
@@ -6804,7 +6831,7 @@ echo &#x27;{&quot;skill&quot;:&quot;ship&quot;,&quot;timestamp&quot;:&quot;&#x27
   </div>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="unfreeze">
   <div class="card-header">
     <div class="card-title">
       <h2>unfreeze</h2>
@@ -6963,7 +6990,7 @@ if [ -f &quot;$STATE_DIR/freeze...</li>
   </div>
   <p class="summary">Needs work skill with 12 suggestions for improvement (weakest: safety)</p>
 </div>
-  <footer>Generated by ai-skill-audit v0.3.1</footer>
+  <footer>Generated by ai-skill-audit v0.3.2</footer>
 </div>
 </body>
 </html>

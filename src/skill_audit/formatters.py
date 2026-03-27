@@ -290,12 +290,18 @@ def format_html(cards: list[ScoreCard], llm_findings: dict[str, list] | None = N
     def _esc(text: str) -> str:
         return html_mod.escape(text)
 
+    def _slug(name: str) -> str:
+        """Convert a name to a URL-safe anchor slug."""
+        import re as _re
+        return _re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
+
     def _render_card(card: ScoreCard) -> str:
         gc = grade_colors.get(card.grade, "#888")
+        slug = _slug(card.entity_name)
         sections = []
 
         # Header
-        sections.append(f'''<div class="card">
+        sections.append(f'''<div class="card" id="{slug}">
   <div class="card-header">
     <div class="card-title">
       <h2>{_esc(card.entity_name)}</h2>
@@ -388,19 +394,20 @@ def format_html(cards: list[ScoreCard], llm_findings: dict[str, list] | None = N
             fname = card.file_path.name if card.file_path else "?"
             suggestions = sum(len(d.suggestions) for d in card.dimensions)
             issue_str = str(suggestions) if suggestions else "-"
+            slug = _slug(card.entity_name)
             rows.append(f'''      <tr>
-        <td>{_esc(fname)}</td>
-        <td>{_esc(card.entity_type)}</td>
-        <td>{_esc(card.entity_name)}</td>
+        <td><a href="#{slug}">{_esc(fname)}</a></td>
+        <td class="hide-mobile">{_esc(card.entity_type)}</td>
+        <td><a href="#{slug}">{_esc(card.entity_name)}</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:{gc}">{_esc(card.grade)}</span></td>
         <td style="text-align:right">{card.overall_score:.0%}</td>
-        <td style="text-align:right">{issue_str}</td>
+        <td class="hide-mobile" style="text-align:right">{issue_str}</td>
       </tr>''')
         summary_html = f'''<div class="summary-section">
   <h2>Summary</h2>
   <table class="summary-table">
     <thead>
-      <tr><th>File</th><th>Type</th><th>Name</th><th>Grade</th><th>Score</th><th>Issues</th></tr>
+      <tr><th>File</th><th class="hide-mobile">Type</th><th>Name</th><th>Grade</th><th>Score</th><th class="hide-mobile">Issues</th></tr>
     </thead>
     <tbody>
 {"".join(rows)}
@@ -419,6 +426,7 @@ def format_html(cards: list[ScoreCard], llm_findings: dict[str, list] | None = N
 <title>Skill Audit Report</title>
 <style>
   *, *::before, *::after {{ box-sizing: border-box; }}
+  html {{ scroll-behavior: smooth; }}
   body {{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #f8f9fa; color: #1a1a2e; margin: 0; padding: 2rem;
@@ -509,9 +517,35 @@ def format_html(cards: list[ScoreCard], llm_findings: dict[str, list] | None = N
     padding: 0.5rem 0.75rem; border-bottom: 1px solid #f1f5f9;
   }}
   .avg-score {{ font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; }}
+  .summary-table a {{ color: #2563eb; text-decoration: none; }}
+  .summary-table a:hover {{ text-decoration: underline; }}
   footer {{
     text-align: center; color: #94a3b8; font-size: 0.75rem;
     margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;
+  }}
+  /* Mobile responsive */
+  @media (max-width: 640px) {{
+    body {{ padding: 0.75rem; }}
+    .hide-mobile {{ display: none; }}
+    h1 {{ font-size: 1.2rem; }}
+    .card {{ padding: 1rem; }}
+    .card-title {{ flex-wrap: wrap; gap: 0.5rem; }}
+    .card-title h2 {{ font-size: 1.05rem; }}
+    .card-meta {{ flex-wrap: wrap; gap: 0.4rem; }}
+    .score-label {{ margin-left: 0; }}
+    .dim-info {{ flex-wrap: wrap; gap: 0.25rem; }}
+    .dim-name {{ min-width: auto; font-size: 0.8rem; }}
+    .dim-score {{ min-width: auto; font-size: 0.8rem; }}
+    .dim-weight {{ font-size: 0.7rem; }}
+    .bar-track {{ height: 6px; }}
+    .audit-meta {{ font-size: 0.75rem; word-break: break-all; }}
+    .audit-source {{ font-size: 0.75rem; }}
+    .summary-section {{ padding: 1rem; overflow-x: auto; }}
+    .summary-table {{ font-size: 0.75rem; }}
+    .summary-table th, .summary-table td {{ padding: 0.35rem 0.4rem; }}
+    .detail-list li, .suggestion-list li {{ font-size: 0.78rem; }}
+    .llm-group li {{ font-size: 0.78rem; }}
+    .llm-fix {{ font-size: 0.75rem; }}
   }}
   @media print {{
     body {{ background: #fff; padding: 0.5rem; }}

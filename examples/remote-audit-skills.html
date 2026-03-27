@@ -6,6 +6,7 @@
 <title>Skill Audit Report</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #f8f9fa; color: #1a1a2e; margin: 0; padding: 2rem;
@@ -96,9 +97,35 @@
     padding: 0.5rem 0.75rem; border-bottom: 1px solid #f1f5f9;
   }
   .avg-score { font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; }
+  .summary-table a { color: #2563eb; text-decoration: none; }
+  .summary-table a:hover { text-decoration: underline; }
   footer {
     text-align: center; color: #94a3b8; font-size: 0.75rem;
     margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;
+  }
+  /* Mobile responsive */
+  @media (max-width: 640px) {
+    body { padding: 0.75rem; }
+    .hide-mobile { display: none; }
+    h1 { font-size: 1.2rem; }
+    .card { padding: 1rem; }
+    .card-title { flex-wrap: wrap; gap: 0.5rem; }
+    .card-title h2 { font-size: 1.05rem; }
+    .card-meta { flex-wrap: wrap; gap: 0.4rem; }
+    .score-label { margin-left: 0; }
+    .dim-info { flex-wrap: wrap; gap: 0.25rem; }
+    .dim-name { min-width: auto; font-size: 0.8rem; }
+    .dim-score { min-width: auto; font-size: 0.8rem; }
+    .dim-weight { font-size: 0.7rem; }
+    .bar-track { height: 6px; }
+    .audit-meta { font-size: 0.75rem; word-break: break-all; }
+    .audit-source { font-size: 0.75rem; }
+    .summary-section { padding: 1rem; overflow-x: auto; }
+    .summary-table { font-size: 0.75rem; }
+    .summary-table th, .summary-table td { padding: 0.35rem 0.4rem; }
+    .detail-list li, .suggestion-list li { font-size: 0.78rem; }
+    .llm-group li { font-size: 0.78rem; }
+    .llm-fix { font-size: 0.75rem; }
   }
   @media print {
     body { background: #fff; padding: 0.5rem; }
@@ -117,85 +144,85 @@
   <h2>Summary</h2>
   <table class="summary-table">
     <thead>
-      <tr><th>File</th><th>Type</th><th>Name</th><th>Grade</th><th>Score</th><th>Issues</th></tr>
+      <tr><th>File</th><th class="hide-mobile">Type</th><th>Name</th><th>Grade</th><th>Score</th><th class="hide-mobile">Issues</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;engineering-skills&quot;</td>
+        <td><a href="#engineering-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#engineering-skills">&quot;engineering-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">72%</td>
-        <td style="text-align:right">5</td>
+        <td class="hide-mobile" style="text-align:right">5</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;c-level-advisor&quot;</td>
+        <td><a href="#c-level-advisor">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#c-level-advisor">&quot;c-level-advisor&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">70%</td>
-        <td style="text-align:right">6</td>
+        <td class="hide-mobile" style="text-align:right">6</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;finance-skills&quot;</td>
+        <td><a href="#finance-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#finance-skills">&quot;finance-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">66%</td>
-        <td style="text-align:right">6</td>
+        <td class="hide-mobile" style="text-align:right">6</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;pm-skills&quot;</td>
+        <td><a href="#pm-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#pm-skills">&quot;pm-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">65%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;ra-qm-skills&quot;</td>
+        <td><a href="#ra-qm-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#ra-qm-skills">&quot;ra-qm-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">65%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;business-growth-skills&quot;</td>
+        <td><a href="#business-growth-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#business-growth-skills">&quot;business-growth-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">63%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;engineering-advanced-skills&quot;</td>
+        <td><a href="#engineering-advanced-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#engineering-advanced-skills">&quot;engineering-advanced-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">63%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;product-skills&quot;</td>
+        <td><a href="#product-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#product-skills">&quot;product-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">63%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL.md</td>
-        <td>skill</td>
-        <td>&quot;marketing-skills&quot;</td>
+        <td><a href="#marketing-skills">SKILL.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#marketing-skills">&quot;marketing-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">63%</td>
-        <td style="text-align:right">7</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
-        <td>SKILL-AUTHORING-STANDARD.md</td>
-        <td>skill</td>
-        <td>Skill Authoring Standard</td>
+        <td><a href="#skill-authoring-standard">SKILL-AUTHORING-STANDARD.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#skill-authoring-standard">Skill Authoring Standard</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">60%</td>
-        <td style="text-align:right">8</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
       </tr>
     </tbody>
   </table>
   <p class="avg-score">10 files analyzed &mdash; average score: 65%</p>
 </div>
-<div class="card">
+<div class="card" id="skill-authoring-standard">
   <div class="card-header">
     <div class="card-title">
       <h2>Skill Authoring Standard</h2>
@@ -322,7 +349,7 @@
   </details>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="business-growth-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;business-growth-skills&quot;</h2>
@@ -454,7 +481,7 @@ python3 customer-success-manager/scripts/health_score_calculator.py --help
   </details>
   <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="c-level-advisor">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;c-level-advisor&quot;</h2>
@@ -575,7 +602,7 @@ python3 customer-success-manager/scripts/health_score_calculator.py --help
   </details>
   <p class="summary">Acceptable skill with 6 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="engineering-advanced-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;engineering-advanced-skills&quot;</h2>
@@ -703,7 +730,7 @@ npx agent-skills-cli add alirezarezvani/claude-skills/engineering</li>
   </details>
   <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="engineering-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;engineering-skills&quot;</h2>
@@ -834,7 +861,7 @@ python3 &lt;skill&gt;/scripts/&lt;tool&gt;.py --help</li>
   </details>
   <p class="summary">Acceptable skill with 5 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="finance-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;finance-skills&quot;</h2>
@@ -964,7 +991,7 @@ python3 financ...</li>
   </details>
   <p class="summary">Acceptable skill with 6 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="marketing-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;marketing-skills&quot;</h2>
@@ -1096,7 +1123,7 @@ python3 marketing-skill/content-production/scripts/conten...</li>
   </details>
   <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="product-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;product-skills&quot;</h2>
@@ -1228,7 +1255,7 @@ python3 ...</li>
   </details>
   <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="pm-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;pm-skills&quot;</h2>
@@ -1361,7 +1388,7 @@ python3 scrum-...</li>
   </details>
   <p class="summary">Acceptable skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-<div class="card">
+<div class="card" id="ra-qm-skills">
   <div class="card-header">
     <div class="card-title">
       <h2>&quot;ra-qm-skills&quot;</h2>
@@ -1493,7 +1520,7 @@ python3 risk-management-specialist/scripts/risk_matrix_calculator.py --help...</
   </details>
   <p class="summary">Acceptable skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-  <footer>Generated by ai-skill-audit v0.3.0</footer>
+  <footer>Generated by ai-skill-audit v0.3.2</footer>
 </div>
 </body>
 </html>
