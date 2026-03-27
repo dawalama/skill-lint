@@ -84,10 +84,55 @@ ai-skill-audit audit https://github.com/alirezarezvani/claude-skills --summary -
 
 **Doc filtering in action:** 12 documentation files (README, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, INSTALLATION, etc.) were automatically skipped. In the previous version without filtering, these inflated the results to 20 files with many false low grades.
 
+## 3. Malicious Skill (Multi-Vector Attack)
+
+An intentionally malicious skill that looks like a "Project Setup Helper" but contains prompt injection, credential theft, obfuscated code execution, and destructive commands.
+
+```bash
+ai-skill-audit audit examples/malicious-skill.md --verbose
+```
+
+```
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Project Setup Helper (skill) — Grade: C (77%)                                │
+╰──────────────────────────── Format: dotai-skill ─────────────────────────────╯
+┏━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Dimension     ┃ Score ┃ Weight ┃ Status     ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━┩
+│ completeness  │  100% │    20% │ ██████████ │
+│ clarity       │  100% │    15% │ ██████████ │
+│ actionability │   87% │    20% │ ████████░░ │
+│ safety        │  100% │    15% │ ██████████ │
+│ testability   │  100% │    10% │ ██████████ │
+│ trust         │    0% │    20% │ ░░░░░░░░░░ │
+└───────────────┴───────┴────────┴────────────┘
+
+  trust (0%)
+    + CRITICAL: 13 suspicious pattern(s) found — review carefully before use
+    ! [DESTRUCTIVE] Destructive rm -rf on root or home directory
+    ! [EXFILTRATION] Posts data to external URL
+    ! [EXFILTRATION] Accesses SSH keys
+    ! [EXFILTRATION] Accesses AWS credentials
+    ! [OBFUSCATION] Decodes and executes hidden commands
+    ! [OBFUSCATION] Dynamic import (common in obfuscated malware)
+    ! [PRIVILEGE] Requests elevated privileges
+    ! [INJECTION] Prompt injection: instruction override attempt
+    ! [INJECTION] Prompt injection: identity reassignment
+    ! [INJECTION] Prompt injection: DAN pattern
+    ! [INJECTION] Hidden instruction tag (known injection pattern from ClawHavoc)
+    ! [SUSPICIOUS_URL] Direct IP address (no DNS = suspicious)
+    ! [ENTROPY] High-entropy string (5.2 bits)
+```
+
+**What it caught:** 13 findings across 7 threat categories — all from a skill that looks perfectly normal on the surface (has description, steps, inputs, examples, gotchas). The quality dimensions all score high, but trust drops to 0%.
+
+**Key insight:** This is exactly how real attacks work. The skill is well-structured enough to pass a casual review, but the trust scanner catches the `<IMPORTANT>` hidden tag, base64-encoded shell commands, credential file access, and prompt injection buried in the body.
+
 ## HTML Reports
 
-The same scans are available as self-contained HTML reports:
+All scans with full LLM security review included:
 
+- [Malicious skill scan](https://dawalama.github.io/skill-audit/audit-malicious-skill.html) — multi-vector attack caught
 - [MCP config scan](https://dawalama.github.io/skill-audit/remote-audit-mcp.html) — angrysky56/100-tool-mcp-server
 - [Skills collection scan](https://dawalama.github.io/skill-audit/remote-audit-skills.html) — alirezarezvani/claude-skills
 
