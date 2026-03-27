@@ -438,6 +438,9 @@ def _score_testability(a: ParsedArtifact, weight: float = 0.10) -> ScoreDimensio
 # =============================================================================
 
 # --- Destructive operations ---
+# NOTE: These are checked with context awareness — patterns found only in
+# description/gotchas prose (documenting dangers, not executing them) are
+# excluded via _is_documentation_context().
 _DESTRUCTIVE_PATTERNS = [
     (r"\brm\s+-rf\s+[/~]", "Destructive rm -rf on root or home directory"),
     (r"\brm\s+-rf\s+/", "Destructive rm -rf on absolute path"),
@@ -475,7 +478,7 @@ _EXFILTRATION_PATTERNS = [
 
 # --- Code obfuscation ---
 _OBFUSCATION_PATTERNS = [
-    (r"\beval\b.*\$\(", "eval with command substitution (obfuscated execution)"),
+    (r"\beval\b.*\$\(.*\b(curl|wget|nc|base64)\b", "eval with network/encoded command (obfuscated execution)"),
     (r"\bbase64\s+-d\b.*\|\s*(sh|bash)\b", "Decodes and executes hidden commands"),
     (r"\bpython\s+-c\b.*exec\(", "Inline Python exec (obfuscated code)"),
     (r"\bpython\s+-c\b.*import\s+os", "Inline Python os access"),
@@ -673,6 +676,10 @@ def _score_trust(
     # Layer 1: All prose text
     all_text = f"{' '.join(a.steps)} {a.raw_body} {' '.join(a.gotchas)} {' '.join(a.examples)}"
 
+    # Documentation-only text: description + gotchas (used for context-aware filtering)
+    # Patterns found ONLY here and nowhere else are likely documenting dangers, not executing them
+    doc_only_text = f"{a.description} {' '.join(a.gotchas)}"
+
     # Layer 2: Extract executable code blocks
     code_blocks = _extract_code_blocks(all_text)
     exec_blocks = [(lang, code) for lang, code in code_blocks if lang in _EXEC_LANGUAGES]
@@ -712,6 +719,23 @@ def _score_trust(
     full_scan = "\n".join(scan_texts)
     full_scan_lower = full_scan.lower()
 
+    # Build "actionable" text — everything except description field
+    # Description often documents what the skill *warns about* (e.g., "warns before rm -rf")
+    # which is not the same as executing it
+    actionable_texts = [' '.join(a.steps), a.raw_body, ' '.join(a.gotchas), ' '.join(a.examples)]
+    for _, code in exec_blocks:
+        actionable_texts.append(code)
+    for _, content in scripts:
+        actionable_texts.append(content)
+    for cmd in inline_cmds:
+        actionable_texts.append(cmd)
+    actionable_scan = "\n".join(actionable_texts)
+    actionable_lower = actionable_scan.lower()
+
+    # Categories where documentation context matters — patterns in description/gotchas
+    # that warn about dangers should not flag if the pattern isn't in executable code
+    _DOC_AWARE_CATEGORIES = {"DESTRUCTIVE"}
+
     findings: list[tuple[str, str]] = []  # (category, description)
 
     # Scan all pattern categories
@@ -729,6 +753,16 @@ def _score_trust(
         text_to_scan = full_scan_lower if case_insensitive else full_scan
         for pattern, desc in patterns:
             if re.search(pattern, text_to_scan):
+                # Context-aware filtering: for DESTRUCTIVE patterns, check if the
+                # match is ONLY in documentation (description/gotchas) and not in
+                # any actionable context (code blocks, scripts, steps, commands).
+                # A skill that warns "don't run rm -rf" shouldn't be flagged the
+                # same as one that instructs "run rm -rf".
+                if category in _DOC_AWARE_CATEGORIES:
+                    action_text = actionable_lower if case_insensitive else actionable_scan
+                    if not re.search(pattern, action_text):
+                        # Pattern only in docs/description — skip it
+                        continue
                 findings.append((category, desc))
 
     # Custom patterns from config file

@@ -128,12 +128,27 @@ ai-skill-audit audit examples/malicious-skill.md --verbose
 
 **Key insight:** This is exactly how real attacks work. The skill is well-structured enough to pass a casual review, but the trust scanner catches the `<IMPORTANT>` hidden tag, base64-encoded shell commands, credential file access, and prompt injection buried in the body.
 
+## 4. Garry Tan's gstack (29 Dev Skills)
+
+A full-stack development toolkit with deploy, review, QA, canary, benchmark, and more.
+
+```bash
+ai-skill-audit audit https://github.com/garrytan/gstack --summary
+```
+
+Key findings:
+- **29 skills scanned**, 10 doc files auto-skipped (AGENTS.md, ETHOS.md, etc.)
+- Average score 57% — mostly quality issues (missing examples, gotchas, testability)
+- **Context-aware scanning in action**: the `careful` skill describes `DROP TABLE`, `git reset --hard`, and `rm -rf` in its description (it *warns* about these). Previous version flagged these as threats; now correctly recognized as documentation.
+- The `eval "$(helper-script)"` pattern (used throughout for env var loading) no longer triggers false positives.
+
 ## HTML Reports
 
 All scans with full LLM security review included:
 
 - [Malicious skill scan](https://dawalama.github.io/skill-audit/audit-malicious-skill.html) — multi-vector attack caught
 - [MCP config scan](https://dawalama.github.io/skill-audit/remote-audit-mcp.html) — angrysky56/100-tool-mcp-server
+- [gstack dev toolkit](https://dawalama.github.io/skill-audit/remote-audit-gstack.html) — garrytan/gstack (29 skills)
 - [Skills collection scan](https://dawalama.github.io/skill-audit/remote-audit-skills.html) — alirezarezvani/claude-skills
 
 Generate your own:

@@ -77,6 +77,9 @@ _DOC_FILES = {
     "claude.md", "gemini.md", "conventions.md",
     # Audit / pipeline docs
     "audit_report.md", "skill_pipeline.md", "store.md",
+    # Project structure / meta docs
+    "agents.md", "ethos.md", "todos.md", "browser.md",
+    "todos.md", "vision.md", "philosophy.md",
 }
 
 
