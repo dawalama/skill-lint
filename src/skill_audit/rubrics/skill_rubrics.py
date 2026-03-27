@@ -23,10 +23,22 @@ ACTION_VERBS = {
 
 
 def _is_runbook(a: ParsedArtifact) -> bool:
-    """Detect if this is a runbook-style skill (rich body, no structured sections)."""
+    """Detect if this is a runbook-style skill (rich body, no structured sections).
+
+    Also treats claude-native and unknown format skills as runbooks if they have
+    a rich body — these formats don't use dotai-style ## Steps/Inputs/Examples
+    sections, so they should be scored on body richness instead.
+    """
     has_structured = bool(a.steps or a.inputs or a.examples)
     has_rich_body = len(a.raw_body) > 200
-    return has_rich_body and not has_structured
+    # Explicit runbook: rich body with no structured sections
+    if has_rich_body and not has_structured:
+        return True
+    # Non-dotai formats with rich body: treat as runbook even if they happen to
+    # have some parsed sections (e.g., a ## Steps header that was auto-detected)
+    if a.format in ("claude-native", "unknown") and has_rich_body:
+        return True
+    return False
 
 
 def _body_richness(body: str) -> dict:
