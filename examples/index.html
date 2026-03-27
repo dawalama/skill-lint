@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ai-skill-audit — Example Reports</title>
+<style>
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --border: #30363d; --card: #161b22; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  .container { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.3rem; }
+  h1 code { background: var(--card); padding: 0.1em 0.4em; border-radius: 6px; font-size: 0.9em; }
+  .tagline { color: var(--muted); margin-bottom: 2rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; }
+  .card h2 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+  .card p { color: var(--muted); font-size: 0.9rem; }
+  .grade { display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 5px; font-weight: 700; font-size: 0.8rem; }
+  .grade-b { background: #1f6feb; color: #fff; }
+  .grade-c { background: #9e6a03; color: #fff; }
+  .links { margin-top: 2rem; color: var(--muted); font-size: 0.9rem; }
+  .links a { margin-right: 1.5rem; }
+  pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1.5rem 0; font-size: 0.9rem; }
+  code { font-family: 'SF Mono', Monaco, Consolas, monospace; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1><code>ai-skill-audit</code></h1>
+<p class="tagline">Example audit reports from real public repositories.</p>
+
+<a href="remote-audit-mcp.html" class="card" style="display:block; text-decoration:none;">
+  <h2>MCP Config Scan <span class="grade grade-b">B</span></h2>
+  <p>30-server MCP config with 6 hardcoded API keys (GitHub, Slack, Discord, Brave, Google Maps, Wolfram). Risk: CRITICAL for secret hygiene.</p>
+  <p style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">Source: angrysky56/100-tool-mcp-server-json-example</p>
+</a>
+
+<a href="remote-audit-skills.html" class="card" style="display:block; text-decoration:none;">
+  <h2>Skills Collection <span class="grade grade-c">C</span></h2>
+  <p>200+ Claude skills across engineering, marketing, product, and C-level domains. 10 skills scanned (12 doc files auto-skipped). Average score: 65%.</p>
+  <p style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">Source: alirezarezvani/claude-skills</p>
+</a>
+
+<h2 style="font-size: 1rem; margin: 2rem 0 0.5rem; color: var(--muted);">Generate your own</h2>
+<pre><code>pip install ai-skill-audit
+ai-skill-audit audit https://github.com/user/repo --output html > report.html</code></pre>
+
+<div class="links">
+  <a href="https://github.com/dawalama/skill-audit">GitHub</a>
+  <a href="https://pypi.org/project/ai-skill-audit/">PyPI</a>
+  <a href="https://github.com/dawalama/skill-audit/blob/main/README.md">Docs</a>
+</div>
+
+</div>
+</body>
+</html>
