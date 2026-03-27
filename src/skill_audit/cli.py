@@ -203,41 +203,19 @@ def audit(
     # Load ignore configuration
     ignore_config = load_ignore_config(target)
 
+    skipped = 0
     if target.is_dir():
         cards, skipped = analyze_directory(target, format, ignore_config=ignore_config, custom_patterns=cfg.custom_patterns or None, weights=cfg.weights, include_docs=include_docs)
         if not cards:
             console.print(f"[yellow]No skill/role files found in {target}[/yellow]")
             raise typer.Exit(0)
-        if output == "json":
-            print(format_json(cards))
-        elif output == "html":
-            print(format_html(cards))
-        elif summary:
-            format_summary_table(cards)
-        else:
-            for card in cards:
-                format_table(card, verbose=verbose)
-            if len(cards) > 1:
-                format_summary_table(cards)
-        if skipped > 0:
-            console.print(f"  [dim]Skipped {skipped} documentation file(s) (README, CONTRIBUTING, etc.). Use --include-docs to scan them.[/dim]\n")
     else:
         cards = [analyze_file(target, format, ignore_config=ignore_config, custom_patterns=cfg.custom_patterns or None, weights=cfg.weights)]
-        if output == "json":
-            print(format_json(cards))
-        elif output == "html":
-            print(format_html(cards))
-        elif output == "markdown":
-            for card in cards:
-                print(format_markdown(card))
-        else:
-            for card in cards:
-                format_table(card, verbose=verbose)
 
-    # LLM review (optional — runs after static analysis)
+    # LLM review (runs before output so HTML can include findings)
+    llm_results: dict[str, list] = {}
     if llm:
         from .llm_reviewer import review_skill, detect_provider
-        from .formatters import format_llm_findings
         from .parser import parse_file as parse_for_llm
 
         provider = llm_provider or detect_provider()
@@ -245,12 +223,10 @@ def audit(
             console.print("\n  [yellow]No LLM provider found.[/yellow]")
             console.print("  [dim]Run `ai-skill-audit providers` to check availability.[/dim]\n")
         else:
-            # Collect cleaned content for LLM review (strips <details>, noise)
             files_to_review: list[tuple[str, str, str]] = []  # (name, content, review_type)
             for card in cards:
                 if card.file_path and card.file_path.exists():
                     if card.entity_type == "mcp-config":
-                        # MCP configs: send raw JSON for security-focused review
                         clean = card.file_path.read_text()
                         files_to_review.append((card.entity_name, clean, "mcp"))
                     else:
@@ -259,22 +235,44 @@ def audit(
                         files_to_review.append((card.entity_name, clean, "skill"))
 
             if files_to_review:
-                label = f"{len(files_to_review)} file(s)" if len(files_to_review) > 1 else files_to_review[0][0]
-                review_label = "LLM Security Review" if any(r == "mcp" for _, _, r in files_to_review) else "LLM Review"
-                console.print(f"  [bold]{review_label}[/bold] via {provider} — {label}\n")
-
                 for fname, content, rtype in files_to_review:
-                    if len(files_to_review) > 1:
-                        console.print(f"  [bold]{fname}[/bold]")
                     review = review_skill(content, provider=provider, model=llm_model, no_cache=no_cache, review_type=rtype)
-                    format_llm_findings(
-                        review.findings, fname, review.model,
-                        verbose=verbose, error=review.error,
-                    )
-                    if len(files_to_review) > 1:
-                        console.print()
+                    if review.findings:
+                        llm_results[fname] = review.findings
 
+    # Output
+    if output == "json":
+        print(format_json(cards))
+    elif output == "html":
+        print(format_html(cards, llm_findings=llm_results or None))
+    elif output == "markdown":
+        for card in cards:
+            print(format_markdown(card))
+    elif target.is_dir() and summary:
+        format_summary_table(cards)
+    else:
+        for card in cards:
+            format_table(card, verbose=verbose)
+        if target.is_dir() and len(cards) > 1:
+            format_summary_table(cards)
+
+    if skipped > 0:
+        console.print(f"  [dim]Skipped {skipped} documentation file(s) (README, CONTRIBUTING, etc.). Use --include-docs to scan them.[/dim]\n")
+
+    # Print LLM findings to terminal (for non-HTML output)
+    if llm_results and output not in ("html", "json"):
+        from .formatters import format_llm_findings
+        label = f"{len(llm_results)} file(s)" if len(llm_results) > 1 else list(llm_results.keys())[0]
+        has_mcp = any(c.entity_type == "mcp-config" for c in cards)
+        review_label = "LLM Security Review" if has_mcp else "LLM Review"
+        console.print(f"  [bold]{review_label}[/bold] — {label}\n")
+        for fname, findings in llm_results.items():
+            if len(llm_results) > 1:
+                console.print(f"  [bold]{fname}[/bold]")
+            format_llm_findings(findings, fname, "LLM", verbose=verbose)
+            if len(llm_results) > 1:
                 console.print()
+        console.print()
 
     # Check minimum grade
     if min_grade:

@@ -63,6 +63,15 @@
   .suggestion-list { margin: 0.25rem 0; padding-left: 1.25rem; }
   .suggestion-list li { font-size: 0.82rem; color: #ca8a04; margin-bottom: 0.15rem; }
   .summary { font-size: 0.85rem; color: #475569; margin-top: 0.75rem; }
+  .llm-section {
+    margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem;
+  }
+  .llm-section h3 { font-size: 0.95rem; color: #334155; margin-bottom: 0.5rem; }
+  .llm-group { margin-bottom: 0.5rem; }
+  .llm-sev { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+  .llm-group ul { margin: 0.25rem 0 0.5rem; padding-left: 1.25rem; }
+  .llm-group li { font-size: 0.82rem; color: #334155; margin-bottom: 0.3rem; }
+  .llm-fix { color: #16a34a; font-size: 0.8rem; }
   .summary-section {
     background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
     padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
@@ -173,6 +182,57 @@
       <li>No network exposure or suspicious URL issues</li>
     </ul>
   </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#dc2626">CRITICAL</span>
+    <ul>
+      <li>Filesystem server grants read/write access to entire F:\ and D:\ drives, exposing all files on those volumes to the AI agent.
+        <br><span class="llm-fix">Fix: Restrict filesystem server paths to only the specific directories needed, removing the broad F:/ and D:/ mounts.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#ef4444">HIGH</span>
+    <ul>
+      <li>Neo4j database password is passed as a command-line argument, making it visible in process listings and shell history.
+        <br><span class="llm-fix">Fix: Pass the Neo4j password via an environment variable instead of a command-line argument.</span>
+      </li>
+      <li>Slack bot token placeholder uses the real xoxb- prefix format, and if replaced with a real token it will be exposed in the config file alongside the team ID.
+        <br><span class="llm-fix">Fix: Reference Slack credentials from a secrets manager or external environment variables rather than embedding them in the config file.</span>
+      </li>
+      <li>Docker MCP server grants the AI agent access to Docker operations, enabling potential container escape, host filesystem mounting, or privilege escalation.
+        <br><span class="llm-fix">Fix: Restrict Docker MCP to read-only operations or limit it to specific containers/images via configuration.</span>
+      </li>
+      <li>Windows CLI server grants shell command execution access to the AI agent, allowing arbitrary command execution on the host.
+        <br><span class="llm-fix">Fix: Review the win-cli config.json to ensure commands are allowlisted; restrict to only the specific commands needed.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>Multiple API keys (GitHub, Brave, Google Maps, Wolfram, Discord, Anthropic, OpenAI) are stored as plaintext placeholders in the config, encouraging direct secret embedding when filled in.
+        <br><span class="llm-fix">Fix: Use environment variable references or a secrets manager instead of storing API keys directly in the configuration file.</span>
+      </li>
+      <li>Multiple servers use &#x27;npx -y&#x27; which auto-installs packages without confirmation, risking supply-chain attacks from typosquatted or compromised packages.
+        <br><span class="llm-fix">Fix: Pin package versions explicitly and install packages locally instead of using npx -y for auto-installation.</span>
+      </li>
+      <li>SQLite and Neo4j servers expose database files/connections directly to the AI agent without apparent access controls or read-only restrictions.
+        <br><span class="llm-fix">Fix: Configure database servers in read-only mode where possible, and restrict to specific tables or operations.</span>
+      </li>
+      <li>Local chat servers communicate over unencrypted HTTP to localhost, which could be intercepted if the host is compromised or ports are forwarded.
+        <br><span class="llm-fix">Fix: Use HTTPS even for localhost connections, or ensure the local LLM port is bound only to 127.0.0.1 and not exposed externally.</span>
+      </li>
+      <li>Puppeteer server gives the AI agent full browser automation capabilities including navigating to arbitrary URLs, which could be used for credential phishing or data exfiltration.
+        <br><span class="llm-fix">Fix: Restrict Puppeteer to specific allowed domains or use it only in a sandboxed environment.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>Several community/third-party MCP servers (mcp-text-editor, @kazuph/mcp-taskmanager, mcp-server-everything-search, community-server-llm-txt) are used without version pinning, increasing supply-chain risk.
+        <br><span class="llm-fix">Fix: Pin all third-party packages to specific verified versions and audit their source code before use.</span>
+      </li>
+      <li>The configuration runs 30+ MCP servers simultaneously, creating a large attack surface and making it difficult to audit and maintain security across all services.
+        <br><span class="llm-fix">Fix: Disable MCP servers that are not actively needed and enable them only when required.</span>
+      </li>
+    </ul></div>
+  </div>
   <p class="summary">Mostly safe MCP config (30 server(s), 6 finding(s), risk: CRITICAL) (weakest: secret_hygiene)</p>
 </div>
   <footer>Generated by skill-audit v0.3.0</footer>

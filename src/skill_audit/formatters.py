@@ -260,8 +260,13 @@ def format_summary_table(cards: list[ScoreCard]) -> None:
     console.print()
 
 
-def format_html(cards: list[ScoreCard]) -> str:
-    """Generate a self-contained HTML report for scorecards."""
+def format_html(cards: list[ScoreCard], llm_findings: dict[str, list] | None = None) -> str:
+    """Generate a self-contained HTML report for scorecards.
+
+    Args:
+        cards: ScoreCards to render
+        llm_findings: Optional dict mapping entity_name -> list of LLMFinding objects
+    """
     grade_colors = {
         "A": "#22c55e",
         "B": "#3b82f6",
@@ -337,6 +342,31 @@ def format_html(cards: list[ScoreCard]) -> str:
                         sections.append(f'      <li>{_esc(s)}</li>')
                     sections.append('    </ul>')
             sections.append('  </details>')
+
+        # LLM findings
+        card_llm = (llm_findings or {}).get(card.entity_name, [])
+        if card_llm:
+            severity_colors = {
+                "critical": "#dc2626", "high": "#ef4444",
+                "medium": "#ca8a04", "low": "#94a3b8",
+            }
+            sections.append('  <div class="llm-section">')
+            sections.append('    <h3>LLM Security Review</h3>')
+            for sev in ("critical", "high", "medium", "low"):
+                group = [f for f in card_llm if f.severity == sev]
+                if not group:
+                    continue
+                color = severity_colors.get(sev, "#888")
+                label = sev.upper()
+                sections.append(f'    <div class="llm-group"><span class="llm-sev" style="color:{color}">{label}</span>')
+                sections.append('    <ul>')
+                for f in group:
+                    sections.append(f'      <li>{_esc(f.message)}')
+                    if f.recommendation:
+                        sections.append(f'        <br><span class="llm-fix">Fix: {_esc(f.recommendation)}</span>')
+                    sections.append('      </li>')
+                sections.append('    </ul></div>')
+            sections.append('  </div>')
 
         # Summary
         if card.summary:
@@ -443,6 +473,15 @@ def format_html(cards: list[ScoreCard]) -> str:
   .suggestion-list {{ margin: 0.25rem 0; padding-left: 1.25rem; }}
   .suggestion-list li {{ font-size: 0.82rem; color: #ca8a04; margin-bottom: 0.15rem; }}
   .summary {{ font-size: 0.85rem; color: #475569; margin-top: 0.75rem; }}
+  .llm-section {{
+    margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem;
+  }}
+  .llm-section h3 {{ font-size: 0.95rem; color: #334155; margin-bottom: 0.5rem; }}
+  .llm-group {{ margin-bottom: 0.5rem; }}
+  .llm-sev {{ font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }}
+  .llm-group ul {{ margin: 0.25rem 0 0.5rem; padding-left: 1.25rem; }}
+  .llm-group li {{ font-size: 0.82rem; color: #334155; margin-bottom: 0.3rem; }}
+  .llm-fix {{ color: #16a34a; font-size: 0.8rem; }}
   .summary-section {{
     background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
     padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06);

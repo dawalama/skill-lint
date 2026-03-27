@@ -3,55 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ai-skill-audit — Example Reports</title>
+<title>ai-skill-audit — Why you need it</title>
 <style>
-  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --border: #30363d; --card: #161b22; }
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --border: #30363d; --card: #161b22; --red: #f85149; --yellow: #d29922; --green: #3fb950; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
-  .container { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem; }
-  h1 { font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .container { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem; }
+  h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
   h1 code { background: var(--card); padding: 0.1em 0.4em; border-radius: 6px; font-size: 0.9em; }
-  .tagline { color: var(--muted); margin-bottom: 2rem; }
+  .tagline { color: var(--muted); margin-bottom: 2.5rem; font-size: 1.05rem; }
+  h2 { font-size: 1.2rem; margin: 2.5rem 0 0.8rem; color: var(--fg); }
+  p { margin-bottom: 0.8rem; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; }
-  .card h2 { font-size: 1.1rem; margin-bottom: 0.3rem; }
-  .card p { color: var(--muted); font-size: 0.9rem; }
-  .grade { display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 5px; font-weight: 700; font-size: 0.8rem; }
-  .grade-b { background: #1f6feb; color: #fff; }
-  .grade-c { background: #9e6a03; color: #fff; }
-  .links { margin-top: 2rem; color: var(--muted); font-size: 0.9rem; }
+  code { background: var(--card); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; font-family: 'SF Mono', Monaco, Consolas, monospace; }
+  pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; font-size: 0.9rem; }
+  pre code { background: none; padding: 0; }
+
+  .problem { background: linear-gradient(135deg, #1a0a0a 0%, var(--card) 100%); border: 1px solid #3d1515; border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+  .problem h3 { color: var(--red); font-size: 1rem; margin-bottom: 0.5rem; }
+  .problem p { color: var(--muted); font-size: 0.95rem; }
+
+  .stat-row { display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; flex: 1; min-width: 140px; text-align: center; }
+  .stat .num { font-size: 1.8rem; font-weight: 700; display: block; }
+  .stat .num.red { color: var(--red); }
+  .stat .num.yellow { color: var(--yellow); }
+  .stat .num.green { color: var(--green); }
+  .stat .label { color: var(--muted); font-size: 0.8rem; }
+
+  .report-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; display: block; text-decoration: none; transition: border-color 0.2s; }
+  .report-card:hover { border-color: var(--accent); text-decoration: none; }
+  .report-card h3 { font-size: 1rem; margin-bottom: 0.3rem; color: var(--fg); }
+  .report-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+  .grade { display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 5px; font-weight: 700; font-size: 0.8rem; color: #fff; }
+  .grade-b { background: #1f6feb; }
+  .grade-c { background: #9e6a03; }
+  .finding { color: var(--red); font-size: 0.85rem; margin-top: 0.3rem; }
+
+  .install { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.5rem 0; display: flex; align-items: center; gap: 0.5rem; }
+  .install code { font-size: 1rem; }
+  .install .prefix { color: var(--muted); }
+
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 1rem 0; }
+  .feature { font-size: 0.9rem; color: var(--muted); padding: 0.3rem 0; }
+  .feature strong { color: var(--fg); }
+
+  .links { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
   .links a { margin-right: 1.5rem; }
-  pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1.5rem 0; font-size: 0.9rem; }
-  code { font-family: 'SF Mono', Monaco, Consolas, monospace; }
+
+  @media (max-width: 600px) {
+    .features { grid-template-columns: 1fr; }
+    .stat-row { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
 
 <h1><code>ai-skill-audit</code></h1>
-<p class="tagline">Example audit reports from real public repositories.</p>
+<p class="tagline">The linter for AI skills. Quality scoring + security scanning in one tool.</p>
 
-<a href="remote-audit-mcp.html" class="card" style="display:block; text-decoration:none;">
-  <h2>MCP Config Scan <span class="grade grade-b">B</span></h2>
-  <p>30-server MCP config with 6 hardcoded API keys (GitHub, Slack, Discord, Brave, Google Maps, Wolfram). Risk: CRITICAL for secret hygiene.</p>
-  <p style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">Source: angrysky56/100-tool-mcp-server-json-example</p>
+<h2>The problem</h2>
+<p>80,000+ community skills are circulating across Claude Code, Cursor, and MCP platforms. You copy-paste a config, install a skill, or browse a marketplace &mdash; and trust that it's safe.</p>
+
+<div class="problem">
+  <h3>It often isn't.</h3>
+  <p>Independent audits have found <strong>13&ndash;37% of marketplace skills</strong> contain critical issues: prompt injection, hardcoded credentials, data exfiltration, and destructive commands hidden in otherwise normal-looking files.</p>
+</div>
+
+<div class="stat-row">
+  <div class="stat"><span class="num red">37%</span><span class="label">of skills with critical issues</span></div>
+  <div class="stat"><span class="num yellow">6</span><span class="label">leaked API keys in one popular MCP config</span></div>
+  <div class="stat"><span class="num green">60+</span><span class="label">threat patterns detected</span></div>
+</div>
+
+<h2>What it catches</h2>
+<div class="features">
+  <div class="feature"><strong>Prompt injection</strong> &mdash; instruction overrides, hidden tags, zero-width chars</div>
+  <div class="feature"><strong>Hardcoded secrets</strong> &mdash; AWS, GitHub, Slack, OpenAI keys</div>
+  <div class="feature"><strong>Data exfiltration</strong> &mdash; curl POST, credential file reads</div>
+  <div class="feature"><strong>Code obfuscation</strong> &mdash; base64|bash, eval, dynamic imports</div>
+  <div class="feature"><strong>Destructive commands</strong> &mdash; rm -rf, DROP TABLE, force push</div>
+  <div class="feature"><strong>MCP config risks</strong> &mdash; exposed secrets, overprivileged servers</div>
+</div>
+
+<h2>See it in action</h2>
+<p>Real scans of public GitHub repositories, with static analysis + LLM security review:</p>
+
+<a href="remote-audit-mcp.html" class="report-card">
+  <h3>MCP Config: 30 servers, 6 leaked secrets <span class="grade grade-b">B</span></h3>
+  <p>A popular "100-tool MCP config" with hardcoded GitHub, Slack, Discord, and API keys.</p>
+  <p class="finding">Overall risk: CRITICAL &mdash; secret_hygiene scored 0%</p>
 </a>
 
-<a href="remote-audit-skills.html" class="card" style="display:block; text-decoration:none;">
-  <h2>Skills Collection <span class="grade grade-c">C</span></h2>
-  <p>200+ Claude skills across engineering, marketing, product, and C-level domains. 10 skills scanned (12 doc files auto-skipped). Average score: 65%.</p>
-  <p style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">Source: alirezarezvani/claude-skills</p>
+<a href="remote-audit-skills.html" class="report-card">
+  <h3>Skill Collection: 200+ Claude skills <span class="grade grade-c">C</span></h3>
+  <p>Engineering, marketing, product, and C-level advisor skills. Quality issues found, no security threats.</p>
+  <p class="finding">10 skills scanned, 12 doc files auto-skipped &mdash; avg score 65%</p>
 </a>
 
-<h2 style="font-size: 1rem; margin: 2rem 0 0.5rem; color: var(--muted);">Generate your own</h2>
-<pre><code>pip install ai-skill-audit
-ai-skill-audit audit https://github.com/user/repo --output html > report.html</code></pre>
+<h2>Get started</h2>
+
+<div class="install">
+  <span class="prefix">$</span> <code>pip install ai-skill-audit</code>
+</div>
+
+<pre><code># Audit a skill file
+ai-skill-audit audit SKILL.md --verbose
+
+# Audit a GitHub repo
+ai-skill-audit audit https://github.com/user/repo --summary
+
+# MCP config scan
+ai-skill-audit audit mcp.json
+
+# Full audit with LLM review
+ai-skill-audit audit skills/ --llm --verbose
+
+# HTML report
+ai-skill-audit audit skills/ --output html --llm > report.html
+
+# CI gating
+ai-skill-audit audit skills/ --min-grade B</code></pre>
 
 <div class="links">
   <a href="https://github.com/dawalama/skill-audit">GitHub</a>
   <a href="https://pypi.org/project/ai-skill-audit/">PyPI</a>
-  <a href="https://github.com/dawalama/skill-audit/blob/main/README.md">Docs</a>
+  <a href="https://github.com/dawalama/skill-audit/blob/main/README.md">Full Documentation</a>
+  <a href="https://github.com/dawalama/skill-audit/blob/main/CONTRIBUTING.md">Contribute</a>
 </div>
 
 </div>
