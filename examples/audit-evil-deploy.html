@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Audit Report</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f8f9fa; color: #1a1a2e; margin: 0; padding: 2rem;
+    line-height: 1.5;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #1a1a2e; }
+  .audit-meta {
+    background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px;
+    padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; font-size: 0.85rem;
+    overflow-x: auto;
+  }
+  .audit-meta code { background: none; padding: 0; color: #334155; }
+  .audit-source { font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; }
+  .audit-source code { font-size: 0.85rem; }
+  .card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .card-header { margin-bottom: 1rem; }
+  .card-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .card-title h2 { margin: 0; font-size: 1.25rem; }
+  .badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 0.9rem;
+    width: 2rem; height: 2rem; border-radius: 6px;
+  }
+  .badge-sm {
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 0.75rem;
+    width: 1.5rem; height: 1.5rem; border-radius: 4px;
+  }
+  .card-meta { display: flex; align-items: center; gap: 0.5rem; }
+  .tag {
+    background: #f1f5f9; color: #64748b; padding: 0.15rem 0.5rem;
+    border-radius: 4px; font-size: 0.8rem;
+  }
+  .score-label { font-size: 0.85rem; color: #64748b; margin-left: auto; }
+  .dimensions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .dim-row { }
+  .dim-info {
+    display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.2rem;
+  }
+  .dim-name { font-weight: 600; font-size: 0.85rem; min-width: 120px; }
+  .dim-score { font-weight: 600; font-size: 0.85rem; min-width: 36px; text-align: right; }
+  .dim-weight { font-size: 0.75rem; color: #94a3b8; }
+  .bar-track {
+    height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 4px; transition: width 0.3s ease;
+  }
+  .detail-section {
+    margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem;
+  }
+  .detail-section summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #475569;
+  }
+  .detail-section h4 { margin: 0.75rem 0 0.25rem; font-size: 0.85rem; color: #334155; }
+  .detail-list { margin: 0.25rem 0; padding-left: 1.25rem; }
+  .detail-list li { font-size: 0.82rem; color: #16a34a; margin-bottom: 0.15rem; }
+  .suggestion-list { margin: 0.25rem 0; padding-left: 1.25rem; }
+  .suggestion-list li { font-size: 0.82rem; color: #ca8a04; margin-bottom: 0.15rem; }
+  .summary { font-size: 0.85rem; color: #475569; margin-top: 0.75rem; }
+  .llm-section {
+    margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem;
+  }
+  .llm-section h3 { font-size: 0.95rem; color: #334155; margin-bottom: 0.5rem; }
+  .llm-group { margin-bottom: 0.5rem; }
+  .llm-sev { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+  .llm-group ul { margin: 0.25rem 0 0.5rem; padding-left: 1.25rem; }
+  .llm-group li { font-size: 0.82rem; color: #334155; margin-bottom: 0.3rem; }
+  .llm-fix { color: #16a34a; font-size: 0.8rem; }
+  .summary-section {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .summary-section h2 { margin: 0 0 1rem; font-size: 1.1rem; }
+  .summary-table {
+    width: 100%; border-collapse: collapse; font-size: 0.85rem;
+  }
+  .summary-table th {
+    text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #e2e8f0;
+    font-weight: 600; color: #475569; font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .summary-table td {
+    padding: 0.5rem 0.75rem; border-bottom: 1px solid #f1f5f9;
+  }
+  .avg-score { font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; }
+  .summary-table a { color: #2563eb; text-decoration: none; }
+  .summary-table a:hover { text-decoration: underline; }
+  footer {
+    text-align: center; color: #94a3b8; font-size: 0.75rem;
+    margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;
+  }
+  /* Mobile responsive */
+  @media (max-width: 640px) {
+    body { padding: 0.75rem; }
+    .hide-mobile { display: none; }
+    h1 { font-size: 1.2rem; }
+    .card { padding: 1rem; }
+    .card-title { flex-wrap: wrap; gap: 0.5rem; }
+    .card-title h2 { font-size: 1.05rem; }
+    .card-meta { flex-wrap: wrap; gap: 0.4rem; }
+    .score-label { margin-left: 0; }
+    .dim-info { flex-wrap: wrap; gap: 0.25rem; }
+    .dim-name { min-width: auto; font-size: 0.8rem; }
+    .dim-score { min-width: auto; font-size: 0.8rem; }
+    .dim-weight { font-size: 0.7rem; }
+    .bar-track { height: 6px; }
+    .audit-meta { font-size: 0.75rem; word-break: break-all; }
+    .audit-source { font-size: 0.75rem; }
+    .summary-section { padding: 1rem; overflow-x: auto; }
+    .summary-table { font-size: 0.75rem; }
+    .summary-table th, .summary-table td { padding: 0.35rem 0.4rem; }
+    .detail-list li, .suggestion-list li { font-size: 0.78rem; }
+    .llm-group li { font-size: 0.78rem; }
+    .llm-fix { font-size: 0.75rem; }
+  }
+  @media print {
+    body { background: #fff; padding: 0.5rem; }
+    .card { box-shadow: none; break-inside: avoid; }
+    .detail-section { open: true; }
+    details[open] summary { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Skill Audit Report</h1>
+  <div class="audit-meta"><code>ai-skill-audit audit examples/evil-deploy.md --verbose --output html</code></div>
+  <p class="audit-source">Source: <code>examples/evil-deploy.md</code></p>
+
+<div class="card" id="evil-deploy">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Evil Deploy</h2>
+      <span class="badge" style="background:#dc2626">F</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">dotai-skill</span>
+      <span class="score-label">Score: 28%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">50%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:50.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#22c55e">80%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:80.0%;background:#22c55e"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#ef4444">25%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:25.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">5%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:5.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#ef4444">0%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:0.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#ef4444">0%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:0.0%;background:#ef4444"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (50%)</h4>
+    <ul class="detail-list">
+      <li>Has description</li>
+      <li>Has 10 steps</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add usage examples showing how to invoke this skill</li>
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Define input parameters if the skill accepts any</li>
+    </ul>
+    <h4>clarity (80%)</h4>
+    <ul class="detail-list">
+      <li>Step count (10) is ideal</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Description is very long — consider trimming to under 200 characters</li>
+    </ul>
+    <h4>actionability (25%)</h4>
+    <ul class="detail-list">
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Start each step with an action verb (Run, Check, Verify, etc.)</li>
+      <li>Reference specific tools or commands in steps (e.g. `git diff`, Grep)</li>
+    </ul>
+    <h4>safety (5%)</h4>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+      <li>Address what happens when things go wrong (errors, failures, retries)</li>
+    </ul>
+    <h4>testability (0%)</h4>
+    <ul class="suggestion-list">
+      <li>Add examples showing how to use this skill</li>
+      <li>Add examples with concrete parameter values</li>
+      <li>Add examples that describe expected outcomes</li>
+    </ul>
+    <h4>trust (0%)</h4>
+    <ul class="detail-list">
+      <li>CRITICAL: 19 suspicious pattern(s) found — review carefully before use</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>[EXFILTRATION] Posts data to external URL</li>
+      <li>[EXFILTRATION] May leak secrets</li>
+      <li>[EXFILTRATION] May leak secrets (credential in output)</li>
+      <li>[EXFILTRATION] May exfiltrate environment variables</li>
+      <li>[EXFILTRATION] Encoded data exfiltration</li>
+      <li>[EXFILTRATION] Accesses SSH keys</li>
+      <li>[EXFILTRATION] Accesses AWS credentials</li>
+      <li>[EXFILTRATION] Reads secret/key files</li>
+      <li>[EXFILTRATION] References crypto wallet/keys</li>
+      <li>[EXFILTRATION] Reverse shell via bash /dev/tcp</li>
+      <li>[EXFILTRATION] Printing credentials (credential logging)</li>
+      <li>[EXFILTRATION] Credentials in curl -u argument (visible in process list)</li>
+      <li>[OBFUSCATION] Decodes and executes hidden commands</li>
+      <li>[SECRET] Possible hardcoded API key or token</li>
+      <li>[SUSPICIOUS_URL] Pipe from URL to shell (remote code execution)</li>
+      <li>[SUSPICIOUS_URL] Direct IP address (no DNS = suspicious)</li>
+      <li>[PERSISTENCE] Appending to authorized_keys — backdoor installation</li>
+      <li>[HIJACKING] Cryptocurrency miner (xmrig)</li>
+      <li>[HIJACKING] Mining pool connection (stratum protocol)</li>
+    </ul>
+  </details>
+  <p class="summary">Poor skill with 31 suggestions for improvement (weakest: testability)</p>
+</div>
+  <footer>Generated by ai-skill-audit v0.4.0</footer>
+</div>
+</body>
+</html>
