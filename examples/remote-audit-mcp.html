@@ -127,20 +127,57 @@
     .llm-group li { font-size: 0.78rem; }
     .llm-fix { font-size: 0.75rem; }
   }
+  .nav { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; }
+  .nav a { color: #2563eb; text-decoration: none; }
+  .nav a:hover { text-decoration: underline; }
+  .nav .sep { color: #cbd5e1; }
   @media print {
     body { background: #fff; padding: 0.5rem; }
     .card { box-shadow: none; break-inside: avoid; }
     .detail-section { open: true; }
     details[open] summary { display: none; }
+    .nav { display: none; }
   }
 </style>
 </head>
 <body>
 <div class="container">
+  <nav class="nav">
+    <a href="https://dawalama.github.io/skill-audit/">All Reports</a>
+    <span class="sep">|</span>
+    <a href="https://github.com/dawalama/skill-audit">GitHub</a>
+    <span class="sep">|</span>
+    <a href="https://pypi.org/project/ai-skill-audit/">PyPI</a>
+  </nav>
   <h1>Skill Audit Report</h1>
-  <div class="audit-meta"><code>ai-skill-audit audit https://github.com/angrysky56/100-tool-mcp-server-json-example --llm --output html</code></div>
+  <div class="audit-meta"><code>ai-skill-audit audit https://github.com/angrysky56/100-tool-mcp-server-json-example --llm --verbose --output html</code></div>
   <p class="audit-source">Source: <code>https://github.com/angrysky56/100-tool-mcp-server-json-example</code></p>
-
+<div class="summary-section">
+  <h2>Summary</h2>
+  <table class="summary-table">
+    <thead>
+      <tr><th>File</th><th class="hide-mobile">Type</th><th>Name</th><th>Grade</th><th>Score</th><th class="hide-mobile">Issues</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="#claude-desktop-config-json">claude_desktop_config.json</a></td>
+        <td class="hide-mobile">mcp-config</td>
+        <td><a href="#claude-desktop-config-json">claude_desktop_config.json</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#3b82f6">B</span></td>
+        <td style="text-align:right">80%</td>
+        <td class="hide-mobile" style="text-align:right">6</td>
+      </tr>      <tr>
+        <td><a href="#readme">README.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#readme">Readme</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#dc2626">F</span></td>
+        <td style="text-align:right">46%</td>
+        <td class="hide-mobile" style="text-align:right">12</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="avg-score">2 files analyzed &mdash; average score: 63%</p>
+</div>
 <div class="card" id="claude-desktop-config-json">
   <div class="card-header">
     <div class="card-title">
@@ -222,56 +259,189 @@
     <h3>LLM Security Review</h3>
     <div class="llm-group"><span class="llm-sev" style="color:#dc2626">CRITICAL</span>
     <ul>
-      <li>Filesystem server grants read/write access to entire F:\ and D:\ drives, exposing all files on those volumes to the AI agent.
-        <br><span class="llm-fix">Fix: Restrict filesystem server paths to only the specific directories needed, removing the broad F:/ and D:/ mounts.</span>
+      <li>Filesystem server grants full read/write access to entire F: and D: drives.
+        <br><span class="llm-fix">Fix: Restrict to specific project directories instead of entire drive roots.</span>
       </li>
     </ul></div>
     <div class="llm-group"><span class="llm-sev" style="color:#ef4444">HIGH</span>
     <ul>
-      <li>Neo4j database password is passed as a command-line argument, making it visible in process listings and shell history.
-        <br><span class="llm-fix">Fix: Pass the Neo4j password via an environment variable instead of a command-line argument.</span>
+      <li>Neo4j password passed as plaintext CLI argument, visible in process listings.
+        <br><span class="llm-fix">Fix: Pass credentials via environment variables instead of CLI args.</span>
       </li>
-      <li>Slack bot token placeholder uses the real xoxb- prefix format, and if replaced with a real token it will be exposed in the config file alongside the team ID.
-        <br><span class="llm-fix">Fix: Reference Slack credentials from a secrets manager or external environment variables rather than embedding them in the config file.</span>
+      <li>Windows CLI server provides arbitrary command execution on the host system.
+        <br><span class="llm-fix">Fix: Audit config.json to ensure allowlisted commands are minimal and no shell escapes are possible.</span>
       </li>
-      <li>Docker MCP server grants the AI agent access to Docker operations, enabling potential container escape, host filesystem mounting, or privilege escalation.
-        <br><span class="llm-fix">Fix: Restrict Docker MCP to read-only operations or limit it to specific containers/images via configuration.</span>
-      </li>
-      <li>Windows CLI server grants shell command execution access to the AI agent, allowing arbitrary command execution on the host.
-        <br><span class="llm-fix">Fix: Review the win-cli config.json to ensure commands are allowlisted; restrict to only the specific commands needed.</span>
+      <li>Docker MCP server can manage containers, risking host escape via privileged container creation or volume mounts.
+        <br><span class="llm-fix">Fix: Run with a read-only Docker socket or restrict to specific container operations.</span>
       </li>
     </ul></div>
     <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
     <ul>
-      <li>Multiple API keys (GitHub, Brave, Google Maps, Wolfram, Discord, Anthropic, OpenAI) are stored as plaintext placeholders in the config, encouraging direct secret embedding when filled in.
-        <br><span class="llm-fix">Fix: Use environment variable references or a secrets manager instead of storing API keys directly in the configuration file.</span>
+      <li>Multiple API tokens stored as plaintext placeholder values in config file (GITHUB_PERSONAL_ACCESS_TOKEN, SLACK_BOT_TOKEN, DISCORD_TOKEN, BRAVE_API_KEY, GOOGLE_MAPS_API_KEY, WOLFRAM_API_KEY).
+        <br><span class="llm-fix">Fix: Reference secrets from a vault or environment variables external to this config file.</span>
       </li>
-      <li>Multiple servers use &#x27;npx -y&#x27; which auto-installs packages without confirmation, risking supply-chain attacks from typosquatted or compromised packages.
-        <br><span class="llm-fix">Fix: Pin package versions explicitly and install packages locally instead of using npx -y for auto-installation.</span>
+      <li>Multiple servers installed via npx -y, allowing unpinned package versions and potential supply-chain substitution.
+        <br><span class="llm-fix">Fix: Pin exact versions and install globally or use a lockfile instead of npx -y.</span>
       </li>
-      <li>SQLite and Neo4j servers expose database files/connections directly to the AI agent without apparent access controls or read-only restrictions.
-        <br><span class="llm-fix">Fix: Configure database servers in read-only mode where possible, and restrict to specific tables or operations.</span>
-      </li>
-      <li>Local chat servers communicate over unencrypted HTTP to localhost, which could be intercepted if the host is compromised or ports are forwarded.
-        <br><span class="llm-fix">Fix: Use HTTPS even for localhost connections, or ensure the local LLM port is bound only to 127.0.0.1 and not exposed externally.</span>
-      </li>
-      <li>Puppeteer server gives the AI agent full browser automation capabilities including navigating to arbitrary URLs, which could be used for credential phishing or data exfiltration.
-        <br><span class="llm-fix">Fix: Restrict Puppeteer to specific allowed domains or use it only in a sandboxed environment.</span>
+      <li>Local AI chat servers use unencrypted HTTP for model inference endpoints.
+        <br><span class="llm-fix">Fix: Use HTTPS even for localhost, or document the accepted risk for local-only traffic.</span>
       </li>
     </ul></div>
     <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
     <ul>
-      <li>Several community/third-party MCP servers (mcp-text-editor, @kazuph/mcp-taskmanager, mcp-server-everything-search, community-server-llm-txt) are used without version pinning, increasing supply-chain risk.
-        <br><span class="llm-fix">Fix: Pin all third-party packages to specific verified versions and audit their source code before use.</span>
-      </li>
-      <li>The configuration runs 30+ MCP servers simultaneously, creating a large attack surface and making it difficult to audit and maintain security across all services.
-        <br><span class="llm-fix">Fix: Disable MCP servers that are not actively needed and enable them only when required.</span>
+      <li>Neo4j connection uses unencrypted bolt:// protocol instead of bolt+s://.
+        <br><span class="llm-fix">Fix: Use bolt+s:// or neo4j+s:// for encrypted connections.</span>
       </li>
     </ul></div>
   </div>
   <p class="summary">Mostly safe MCP config (30 server(s), 6 finding(s), risk: CRITICAL) (weakest: secret_hygiene)</p>
 </div>
-  <footer>Generated by ai-skill-audit v0.3.2</footer>
+<div class="card" id="readme">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Readme</h2>
+      <span class="badge" style="background:#dc2626">F</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 46%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#ef4444">26%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:26.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#eab308">42%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:42.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#ef4444">35%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:35.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (26%)</h4>
+    <ul class="detail-list">
+      <li>Has runbook body (61 words)</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add more structure (sections or bullet lists) to the body</li>
+      <li>Add usage examples showing how to invoke this skill</li>
+      <li>Add gotchas/caveats to warn about common failure points</li>
+    </ul>
+    <h4>clarity (42%)</h4>
+    <ul class="detail-list">
+      <li>Has body content (61 words)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+      <li>Add section headers (##) and bullet lists to improve scannability</li>
+    </ul>
+    <h4>actionability (35%)</h4>
+    <ul class="detail-list">
+      <li>Runbook body present</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add action-oriented instructions (bullet points starting with verbs)</li>
+      <li>Include code examples or tool references in the body</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (30%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add examples with concrete parameter values</li>
+      <li>Add examples that describe expected outcomes</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>No executable code or suspicious patterns detected</li>
+    </ul>
+  </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The skill is named &#x27;Readme&#x27; but contains no actionable skill instructions — it is a personal note about MCP server configurations, not a functional skill.
+        <br><span class="llm-fix">Fix: Remove this from the skills directory or rewrite it as an actual skill with clear steps and purpose.</span>
+      </li>
+      <li>The skill links to an external GitHub repository without any validation or description of what the repo contains, which could lead an agent to fetch and trust arbitrary external content.
+        <br><span class="llm-fix">Fix: Either inline the relevant configuration examples directly or add a clear description of the linked repo&#x27;s contents and trust level.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The skill has no defined steps, inputs, outputs, or allowed tools, making it non-functional as an agent skill.
+        <br><span class="llm-fix">Fix: Structure the content as a proper skill with steps, inputs, and expected outputs, or reclassify it as documentation.</span>
+      </li>
+    </ul></div>
+  </div>
+  <p class="summary">Poor skill with 12 suggestions for improvement (weakest: completeness)</p>
+</div>
+  <footer>Generated by ai-skill-audit v0.4.0</footer>
 </div>
 </body>
 </html>

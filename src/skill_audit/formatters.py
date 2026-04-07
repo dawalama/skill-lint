@@ -547,16 +547,28 @@ def format_html(cards: list[ScoreCard], llm_findings: dict[str, list] | None = N
     .llm-group li {{ font-size: 0.78rem; }}
     .llm-fix {{ font-size: 0.75rem; }}
   }}
+  .nav {{ display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; }}
+  .nav a {{ color: #2563eb; text-decoration: none; }}
+  .nav a:hover {{ text-decoration: underline; }}
+  .nav .sep {{ color: #cbd5e1; }}
   @media print {{
     body {{ background: #fff; padding: 0.5rem; }}
     .card {{ box-shadow: none; break-inside: avoid; }}
     .detail-section {{ open: true; }}
     details[open] summary {{ display: none; }}
+    .nav {{ display: none; }}
   }}
 </style>
 </head>
 <body>
 <div class="container">
+  <nav class="nav">
+    <a href="https://dawalama.github.io/skill-audit/">All Reports</a>
+    <span class="sep">|</span>
+    <a href="https://github.com/dawalama/skill-audit">GitHub</a>
+    <span class="sep">|</span>
+    <a href="https://pypi.org/project/ai-skill-audit/">PyPI</a>
+  </nav>
   <h1>Skill Audit Report</h1>
 {f'  <div class="audit-meta"><code>{_esc(audit_command)}</code></div>' if audit_command else ''}
 {f'  <p class="audit-source">Source: <code>{_esc(audit_source)}</code></p>' if audit_source else ''}

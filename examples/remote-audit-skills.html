@@ -127,18 +127,30 @@
     .llm-group li { font-size: 0.78rem; }
     .llm-fix { font-size: 0.75rem; }
   }
+  .nav { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; }
+  .nav a { color: #2563eb; text-decoration: none; }
+  .nav a:hover { text-decoration: underline; }
+  .nav .sep { color: #cbd5e1; }
   @media print {
     body { background: #fff; padding: 0.5rem; }
     .card { box-shadow: none; break-inside: avoid; }
     .detail-section { open: true; }
     details[open] summary { display: none; }
+    .nav { display: none; }
   }
 </style>
 </head>
 <body>
 <div class="container">
+  <nav class="nav">
+    <a href="https://dawalama.github.io/skill-audit/">All Reports</a>
+    <span class="sep">|</span>
+    <a href="https://github.com/dawalama/skill-audit">GitHub</a>
+    <span class="sep">|</span>
+    <a href="https://pypi.org/project/ai-skill-audit/">PyPI</a>
+  </nav>
   <h1>Skill Audit Report</h1>
-  <div class="audit-meta"><code>ai-skill-audit audit https://github.com/alirezarezvani/claude-skills --llm --output html</code></div>
+  <div class="audit-meta"><code>ai-skill-audit audit https://github.com/alirezarezvani/claude-skills --llm --verbose --output html</code></div>
   <p class="audit-source">Source: <code>https://github.com/alirezarezvani/claude-skills</code></p>
 <div class="summary-section">
   <h2>Summary</h2>
@@ -162,6 +174,20 @@
         <td style="text-align:right">70%</td>
         <td class="hide-mobile" style="text-align:right">6</td>
       </tr>      <tr>
+        <td><a href="#contributing">CONTRIBUTING.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#contributing">Contributing</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
+        <td style="text-align:right">66%</td>
+        <td class="hide-mobile" style="text-align:right">6</td>
+      </tr>      <tr>
+        <td><a href="#security">SECURITY.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#security">Security</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
+        <td style="text-align:right">66%</td>
+        <td class="hide-mobile" style="text-align:right">6</td>
+      </tr>      <tr>
         <td><a href="#finance-skills">SKILL.md</a></td>
         <td class="hide-mobile">skill</td>
         <td><a href="#finance-skills">&quot;finance-skills&quot;</a></td>
@@ -181,6 +207,13 @@
         <td><a href="#ra-qm-skills">&quot;ra-qm-skills&quot;</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#eab308">C</span></td>
         <td style="text-align:right">65%</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
+      </tr>      <tr>
+        <td><a href="#readme">README.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#readme">Readme</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">63%</td>
         <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
         <td><a href="#business-growth-skills">SKILL.md</a></td>
@@ -211,16 +244,1792 @@
         <td style="text-align:right">63%</td>
         <td class="hide-mobile" style="text-align:right">7</td>
       </tr>      <tr>
+        <td><a href="#claude">CLAUDE.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#claude">Claude</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">62%</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
+      </tr>      <tr>
+        <td><a href="#conventions">CONVENTIONS.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#conventions">Conventions</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">62%</td>
+        <td class="hide-mobile" style="text-align:right">7</td>
+      </tr>      <tr>
+        <td><a href="#skill-pipeline">SKILL_PIPELINE.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#skill-pipeline">Skill Pipeline</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">61%</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
+      </tr>      <tr>
+        <td><a href="#audit-report">AUDIT_REPORT.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#audit-report">Audit Report</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">61%</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
+      </tr>      <tr>
         <td><a href="#skill-authoring-standard">SKILL-AUTHORING-STANDARD.md</a></td>
         <td class="hide-mobile">skill</td>
         <td><a href="#skill-authoring-standard">Skill Authoring Standard</a></td>
         <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
         <td style="text-align:right">60%</td>
         <td class="hide-mobile" style="text-align:right">8</td>
+      </tr>      <tr>
+        <td><a href="#installation">INSTALLATION.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#installation">Installation</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">58%</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
+      </tr>      <tr>
+        <td><a href="#gemini">GEMINI.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#gemini">Gemini</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">57%</td>
+        <td class="hide-mobile" style="text-align:right">8</td>
+      </tr>      <tr>
+        <td><a href="#changelog">CHANGELOG.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#changelog">Changelog</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">54%</td>
+        <td class="hide-mobile" style="text-align:right">9</td>
+      </tr>      <tr>
+        <td><a href="#store">STORE.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#store">Store</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#ef4444">D</span></td>
+        <td style="text-align:right">54%</td>
+        <td class="hide-mobile" style="text-align:right">9</td>
+      </tr>      <tr>
+        <td><a href="#code-of-conduct">CODE_OF_CONDUCT.md</a></td>
+        <td class="hide-mobile">skill</td>
+        <td><a href="#code-of-conduct">Code Of Conduct</a></td>
+        <td style="text-align:center"><span class="badge-sm" style="background:#dc2626">F</span></td>
+        <td style="text-align:right">48%</td>
+        <td class="hide-mobile" style="text-align:right">11</td>
       </tr>
     </tbody>
   </table>
-  <p class="avg-score">10 files analyzed &mdash; average score: 65%</p>
+  <p class="avg-score">22 files analyzed &mdash; average score: 62%</p>
+</div>
+<div class="card" id="audit-report">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Audit Report</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 61%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">43%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:43.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (43%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (2628 words, 18 sections, 105 bullets)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add usage examples showing how to invoke this skill</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (18 sections, 105 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (0 action items, 17 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (30%)</h4>
+    <ul class="detail-list">
+      <li>Body has some example content</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add more concrete examples to the body</li>
+      <li>Add examples with concrete parameter values</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="changelog">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Changelog</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 54%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">43%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:43.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#eab308">50%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:50.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#ef4444">15%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:15.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (43%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (2655 words, 49 sections, 201 bullets)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add usage examples showing how to invoke this skill</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (49 sections, 201 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (50%)</h4>
+    <ul class="detail-list">
+      <li>Runbook body present</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add action-oriented instructions (bullet points starting with verbs)</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (15%)</h4>
+    <ul class="detail-list">
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add examples showing how to use this skill</li>
+      <li>Add examples with concrete parameter values</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Needs work skill with 9 suggestions for improvement (weakest: testability)</p>
+</div>
+<div class="card" id="claude">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Claude</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 62%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">5%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:5.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (1445 words, 15 sections, 39 bullets)</li>
+      <li>Has 3 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (15 sections, 39 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (1 action items, 11 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (5%)</h4>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+      <li>Address what happens when things go wrong (errors, failures, retries)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 1 executable code block(s): bash</li>
+      <li>  [bash] # 1. Always start from dev</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 1 inline command(s):</li>
+      <li>  $ bash
+# 1. Always start from dev
+git checkout dev
+git pull origin dev
+
+# 2. Creat...</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="code-of-conduct">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Code Of Conduct</h2>
+      <span class="badge" style="background:#dc2626">F</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 48%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">43%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:43.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#ef4444">35%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:35.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">5%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:5.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#ef4444">15%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:15.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (43%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (715 words, 11 sections, 10 bullets)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add usage examples showing how to invoke this skill</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (11 sections, 10 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (35%)</h4>
+    <ul class="detail-list">
+      <li>Runbook body present</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add action-oriented instructions (bullet points starting with verbs)</li>
+      <li>Include code examples or tool references in the body</li>
+    </ul>
+    <h4>safety (5%)</h4>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+      <li>Address what happens when things go wrong (errors, failures, retries)</li>
+    </ul>
+    <h4>testability (15%)</h4>
+    <ul class="detail-list">
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add examples showing how to use this skill</li>
+      <li>Add examples with concrete parameter values</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Poor skill with 11 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="contributing">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Contributing</h2>
+      <span class="badge" style="background:#eab308">C</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 66%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (870 words, 20 sections, 42 bullets)</li>
+      <li>Has 9 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (20 sections, 42 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (0 action items, 6 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 4 executable code block(s): bash, python</li>
+      <li>  [bash] git clone https://github.com/YOUR_USERNAME/claude-skills.git</li>
+      <li>  [bash] # Example: new engineering skill</li>
+      <li>  [python] #!/usr/bin/env python3</li>
+      <li>  [bash] # Structure validation</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 4 inline command(s):</li>
+      <li>  $ bash
+git clone https://github.com/YOUR_USERNAME/claude-skills.git
+cd claude-skil...</li>
+      <li>  $ bash
+# Example: new engineering skill
+mkdir -p engineering/my-new-skill/scripts
+...</li>
+      <li>  $ python
+#!/usr/bin/env python3
+&quot;&quot;&quot;Tool Name — brief description.&quot;&quot;&quot;
+
+import argpa...</li>
+      <li>  $ bash
+# Structure validation
+python3 engineering/skill-tester/scripts/skill_valid...</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Acceptable skill with 6 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="conventions">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Conventions</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 62%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">5%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:5.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (1239 words, 18 sections, 16 bullets)</li>
+      <li>Has 9 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (18 sections, 16 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (0 action items, 8 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (5%)</h4>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+      <li>Address what happens when things go wrong (errors, failures, retries)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 2 executable code block(s): bash, python</li>
+      <li>  [python] #!/usr/bin/env python3</li>
+      <li>  [bash] # Structure validation</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 2 inline command(s):</li>
+      <li>  $ python
+#!/usr/bin/env python3
+&quot;&quot;&quot;Tool Name — brief description.&quot;&quot;&quot;
+
+import argpa...</li>
+      <li>  $ bash
+# Structure validation
+python3 engineering/skill-tester/scripts/skill_valid...</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="gemini">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Gemini</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 57%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#eab308">50%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:50.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">5%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:5.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (359 words, 7 sections, 6 bullets)</li>
+      <li>Has 4 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (7 sections, 6 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (50%)</h4>
+    <ul class="detail-list">
+      <li>Runbook body present</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add action-oriented instructions (bullet points starting with verbs)</li>
+    </ul>
+    <h4>safety (5%)</h4>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+      <li>Address what happens when things go wrong (errors, failures, retries)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 4 executable code block(s): bash, javascript</li>
+      <li>  [javascript] activate_skill(name=&quot;senior-architect&quot;)</li>
+      <li>  [javascript] activate_skill(name=&quot;cs-engineering-lead&quot;)</li>
+      <li>  [bash] python3 marketing-skill/content-production/scripts/seo_checker.py article.txt</li>
+      <li>  [bash] ./scripts/gemini-install.sh</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 2 inline command(s):</li>
+      <li>  $ bash
+python3 marketing-skill/content-production/scripts/seo_checker.py article.t...</li>
+      <li>  $ bash
+./scripts/gemini-install.sh</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The skill is named &#x27;Gemini&#x27; but functions as a comprehensive skills library index and publishing guide for a platform called ClawHub, not as a single focused skill.
+        <br><span class="llm-fix">Fix: Rename the skill to reflect its actual purpose (e.g., &#x27;gemini-skills-index&#x27;) or split into separate documentation and skill files.</span>
+      </li>
+      <li>The skill instructs running an unvetted shell script (gemini-install.sh) that creates directories and symlinks without documenting what it modifies.
+        <br><span class="llm-fix">Fix: Document exactly what the install script does, or inline the setup steps so users can review them before execution.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The skill references external infrastructure (ClawHub at clawhub.com) with publishing constraints but provides no verification mechanism for skill integrity or provenance.
+        <br><span class="llm-fix">Fix: Add guidance on verifying skill authenticity and integrity when pulling from ClawHub, such as checksums or signing.</span>
+      </li>
+      <li>The skill body contains no actionable agent instructions — it reads as a README rather than a skill that an agent should execute step-by-step.
+        <br><span class="llm-fix">Fix: Either convert this to a README/documentation file, or add concrete steps the agent should follow when this skill is activated.</span>
+      </li>
+    </ul></div>
+  </div>
+  <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="installation">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Installation</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 58%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (2800 words, 78 sections, 37 bullets)</li>
+      <li>Has 58 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (78 sections, 37 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (3 action items, 9 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (60%)</h4>
+    <ul class="detail-list">
+      <li>Contains 55 executable code block(s): bash, cmd, javascript</li>
+      <li>  [bash] # In Claude Code, run:</li>
+      <li>  [bash] # Option 1: Universal installer</li>
+      <li>  [bash] # Setup script for Gemini CLI</li>
+      <li>  [bash] # Install from ClawHub</li>
+      <li>  [bash] npx agent-skills-cli add alirezarezvani/claude-skills</li>
+      <li>  [bash] # In Claude Code, run:</li>
+      <li>  [bash] # Install by domain (bundles of skills)</li>
+      <li>  [bash] # Marketing</li>
+      <li>  [bash] # Update all installed plugins</li>
+      <li>  [bash] # Remove specific plugin</li>
+      <li>  [bash] # Install to all supported agents</li>
+      <li>  [bash] # Claude Code only</li>
+      <li>  [bash] # Dry run to see what will be installed</li>
+      <li>  [bash] # Content Creator</li>
+      <li>  [bash] # CEO Advisor</li>
+      <li>  [bash] # Product Manager Toolkit</li>
+      <li>  [bash] # Senior PM Expert</li>
+      <li>  [bash] # Core Engineering</li>
+      <li>  [bash] # Regulatory &amp; Quality Leadership</li>
+      <li>  [bash] # Install marketing skills to Claude Code (for content strategist)</li>
+      <li>  [bash] # Full engineering suite to Claude Code</li>
+      <li>  [bash] git clone https://github.com/alirezarezvani/claude-skills.git</li>
+      <li>  [bash] # Optional dependencies for future features</li>
+      <li>  [bash] # Copy all skills</li>
+      <li>  [bash] # Copy to project directory</li>
+      <li>  [bash] # Copy to project directory</li>
+      <li>  [bash] # Test marketing tools</li>
+      <li>  [bash] # Check Claude Code installation</li>
+      <li>  [bash] # Create test file</li>
+      <li>  [bash] # macOS</li>
+      <li>  [bash] # Install entire domain bundle</li>
+      <li>  [bash] # Check network</li>
+      <li>  [bash] # Verify installation</li>
+      <li>  [bash] chmod +x marketing-skill/content-creator/scripts/*.py</li>
+      <li>  [bash] # Install Python dependencies</li>
+      <li>  [bash] # Check SKILL.md exists</li>
+      <li>  [bash] # Reset skills directory</li>
+      <li>  [bash] # Cursor uses project-local skills</li>
+      <li>  [bash] # GitHub Copilot uses .github/skills/</li>
+      <li>  [bash] # Remove from Claude Code</li>
+      <li>  [bash] # Clone directory</li>
+      <li>  [bash] # Example: Remove content-creator from Claude Code</li>
+      <li>  [bash] git clone https://github.com/alirezarezvani/claude-skills.git</li>
+      <li>  [bash] ./scripts/gemini-install.sh</li>
+      <li>  [javascript] // Activate a core skill</li>
+      <li>  [bash] python3 marketing-skill/content-production/scripts/brand_voice_analyzer.py artic</li>
+      <li>  [bash] # Install from ClawHub registry</li>
+      <li>  [bash] # Clone the repository</li>
+      <li>  [bash] # List installed skills</li>
+      <li>  [bash] python3 engineering-team/senior-security/scripts/threat_modeler.py --help</li>
+      <li>  [bash] # Install all skills to Codex</li>
+      <li>  [bash] # Clone repository</li>
+      <li>  [cmd] REM Clone repository</li>
+      <li>  [bash] # Clone repository</li>
+      <li>  [bash] # Check installed skills</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 53 inline command(s):</li>
+      <li>  $ bash
+# In Claude Code, run:
+/plugin marketplace add alirezarezvani/claude-skills...</li>
+      <li>  $ bash
+# Option 1: Universal installer
+npx agent-skills-cli add alirezarezvani/cla...</li>
+      <li>  $ bash
+# Setup script for Gemini CLI
+git clone https://github.com/alirezarezvani/c...</li>
+      <li>  $ bash
+# Install from ClawHub
+clawhub install alirezarezvani/claude-skills
+
+# Or m...</li>
+      <li>  $ bash
+npx agent-skills-cli add alirezarezvani/claude-skills</li>
+      <li>  $ bash
+# In Claude Code, run:
+/plugin marketplace add alirezarezvani/claude-skills</li>
+      <li>  $ bash
+# Install by domain (bundles of skills)
+/plugin install marketing-skills@cl...</li>
+      <li>  $ bash
+# Marketing
+/plugin install content-creator@claude-code-skills
+/plugin inst...</li>
+      <li>  $ bash
+# Update all installed plugins
+/plugin update
+
+# Update specific plugin
+/pl...</li>
+      <li>  $ bash
+# Remove specific plugin
+/plugin remove marketing-skills
+
+# Remove marketpl...</li>
+      <li>  $ bash
+# Install to all supported agents
+npx agent-skills-cli add alirezarezvani/c...</li>
+      <li>  $ bash
+# Claude Code only
+npx agent-skills-cli add alirezarezvani/claude-skills --...</li>
+      <li>  $ bash
+# Dry run to see what will be installed
+npx agent-skills-cli add alirezarez...</li>
+      <li>  $ bash
+# Content Creator
+npx agent-skills-cli add alirezarezvani/claude-skills/mar...</li>
+      <li>  $ bash
+# CEO Advisor
+npx agent-skills-cli add alirezarezvani/claude-skills/c-level...</li>
+      <li>  $ bash
+# Product Manager Toolkit
+npx agent-skills-cli add alirezarezvani/claude-sk...</li>
+      <li>  $ bash
+# Senior PM Expert
+npx agent-skills-cli add alirezarezvani/claude-skills/pr...</li>
+      <li>  $ bash
+# Core Engineering
+npx agent-skills-cli add alirezarezvani/claude-skills/en...</li>
+      <li>  $ bash
+# Regulatory &amp; Quality Leadership
+npx agent-skills-cli add alirezarezvani/c...</li>
+      <li>  $ bash
+# Install marketing skills to Claude Code (for content strategist)
+npx agen...</li>
+      <li>  $ bash
+# Full engineering suite to Claude Code
+npx agent-skills-cli add alirezarez...</li>
+      <li>  $ bash
+git clone https://github.com/alirezarezvani/claude-skills.git
+cd claude-ski...</li>
+      <li>  $ bash
+# Optional dependencies for future features
+pip install pyyaml</li>
+      <li>  $ bash
+# Copy all skills
+cp -r marketing-skill ~/.claude/skills/
+cp -r c-level-adv...</li>
+      <li>  $ bash
+# Copy to project directory
+mkdir -p .cursor/skills
+cp -r marketing-skill ....</li>
+      <li>  $ bash
+# Copy to project directory
+mkdir -p .github/skills
+cp -r engineering-team ...</li>
+      <li>  $ bash
+# Test marketing tools
+python3 marketing-skill/content-production/scripts/b...</li>
+      <li>  $ bash
+# Check Claude Code installation
+ls ~/.claude/skills/
+
+# Check Cursor insta...</li>
+      <li>  $ bash
+# Create test file
+echo &quot;Sample content for analysis&quot; &gt; test-article.txt
+
+#...</li>
+      <li>  $ bash
+# macOS
+brew install node
+
+# Ubuntu/Debian
+sudo apt-get install nodejs npm
+...</li>
+      <li>  $ bash
+# Install entire domain bundle
+npx agent-skills-cli add alirezarezvani/clau...</li>
+      <li>  $ bash
+# Check network
+curl https://github.com/alirezarezvani/claude-skills
+
+# Che...</li>
+      <li>  $ bash
+# Verify installation
+ls -R ~/.claude/skills/
+
+# Restart Claude Code
+# Clos...</li>
+      <li>  $ bash
+chmod +x marketing-skill/content-creator/scripts/*.py
+chmod +x c-level-advi...</li>
+      <li>  $ bash
+# Install Python dependencies
+pip install pyyaml
+
+# Or use Python 3 specifi...</li>
+      <li>  $ bash
+# Check SKILL.md exists
+ls ~/.claude/skills/content-creator/SKILL.md
+
+# Ver...</li>
+      <li>  $ bash
+# Reset skills directory
+rm -rf ~/.claude/skills/
+mkdir -p ~/.claude/skills...</li>
+      <li>  $ bash
+# Cursor uses project-local skills
+# Verify project directory has .cursor/s...</li>
+      <li>  $ bash
+# GitHub Copilot uses .github/skills/
+# Verify directory structure
+
+ls .git...</li>
+      <li>  $ bash
+# Remove from Claude Code
+rm -rf ~/.claude/skills/alirezarezvani/claude-ski...</li>
+      <li>  $ bash
+# Clone directory
+rm -rf claude-skills/
+
+# Copied skills
+rm -rf ~/.claude/s...</li>
+      <li>  $ bash
+# Example: Remove content-creator from Claude Code
+rm -rf ~/.claude/skills/...</li>
+      <li>  $ bash
+    git clone https://github.com/alirezarezvani/claude-skills.git
+    cd cl...</li>
+      <li>  $ bash
+    ./scripts/gemini-install.sh</li>
+      <li>  $ bash
+python3 marketing-skill/content-production/scripts/brand_voice_analyzer.py ...</li>
+      <li>  $ bash
+# Install from ClawHub registry
+clawhub install alirezarezvani/claude-skill...</li>
+      <li>  $ bash
+# Clone the repository
+git clone https://github.com/alirezarezvani/claude-s...</li>
+      <li>  $ bash
+# List installed skills
+ls ~/.openclaw/skills/
+
+# Verify a skill&#x27;s frontmat...</li>
+      <li>  $ bash
+python3 engineering-team/senior-security/scripts/threat_modeler.py --help
+p...</li>
+      <li>  $ bash
+# Install all skills to Codex
+npx agent-skills-cli add alirezarezvani/claud...</li>
+      <li>  $ bash
+# Clone repository
+git clone https://github.com/alirezarezvani/claude-skill...</li>
+      <li>  $ bash
+# Clone repository
+git clone https://github.com/alirezarezvani/claude-skill...</li>
+      <li>  $ bash
+# Check installed skills
+ls ~/.codex/skills/
+
+# Verify skill structure
+ls ~...</li>
+      <li>HIGH: 2 suspicious pattern(s) found</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>[DESTRUCTIVE] Destructive rm -rf on root or home directory</li>
+      <li>[PRIVILEGE] Requests elevated privileges</li>
+    </ul>
+  </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ef4444">HIGH</span>
+    <ul>
+      <li>The skill instructs agents to run arbitrary shell commands (git clone, npx, shell scripts) from an external repository without any integrity verification, hash checking, or signature validation.
+        <br><span class="llm-fix">Fix: Add checksum verification for downloaded scripts and pin to specific commit hashes rather than mutable branch heads.</span>
+      </li>
+      <li>The install scripts (codex-install.sh, gemini-install.sh) are executed directly after cloning but their contents are never shown or described, making their actual behavior opaque to the user and the reviewing agent.
+        <br><span class="llm-fix">Fix: Document exactly what each install script does, or replace opaque shell scripts with explicit inline commands.</span>
+      </li>
+      <li>Installing skills to ~/.claude/skills/ allows third-party code to inject persistent instructions into all future Claude Code sessions without per-session user consent.
+        <br><span class="llm-fix">Fix: Warn users that installing to global skill directories grants persistent instruction-injection capability to the skill author.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The skill is named &#x27;Installation&#x27; but functions as a promotional document for a third-party skill marketplace, directing users to install 205+ unaudited skills from an external GitHub repository.
+        <br><span class="llm-fix">Fix: Rename to clearly indicate this is a third-party plugin catalog, and add warnings that installed skills have not been security-reviewed.</span>
+      </li>
+      <li>The skill references Claude Code features that do not exist (/plugin marketplace, /plugin install, /plugin update, /plugin remove), which would confuse both agents and users.
+        <br><span class="llm-fix">Fix: Remove or clearly label fictitious commands; only reference real, documented Claude Code functionality.</span>
+      </li>
+      <li>The universal installer claims to write to sensitive agent configuration directories across 37+ agents simultaneously, but the scope of filesystem changes is never enumerated.
+        <br><span class="llm-fix">Fix: Require explicit per-agent opt-in and show the full list of paths that will be modified before execution.</span>
+      </li>
+      <li>The npx command executes a remote npm package (agent-skills-cli) without version pinning, allowing a supply-chain attack if the package is compromised.
+        <br><span class="llm-fix">Fix: Pin to a specific version (e.g., npx agent-skills-cli@1.2.3) and verify the package publisher&#x27;s identity.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The document is truncated mid-sentence at the end, suggesting incomplete content that an agent might attempt to fetch or complete unpredictably.
+        <br><span class="llm-fix">Fix: Complete the truncated content or add a clear end-of-document marker.</span>
+      </li>
+    </ul></div>
+  </div>
+  <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="readme">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Readme</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 63%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (2099 words, 25 sections, 16 bullets)</li>
+      <li>Has 13 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (25 sections, 16 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body has some actionable content</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add more action-oriented bullet points or numbered steps</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 9 executable code block(s): bash</li>
+      <li>  [bash] # Clone the repository</li>
+      <li>  [bash] # Add the marketplace</li>
+      <li>  [bash] npx agent-skills-cli add alirezarezvani/claude-skills --agent codex</li>
+      <li>  [bash] bash &lt;(curl -s https://raw.githubusercontent.com/alirezarezvani/claude-skills/ma</li>
+      <li>  [bash] git clone https://github.com/alirezarezvani/claude-skills.git</li>
+      <li>  [bash] # 1. Convert all skills to all tools (takes ~15 seconds)</li>
+      <li>  [bash] # Claude Code</li>
+      <li>  [bash] python3 engineering/skill-security-auditor/scripts/skill_security_auditor.py /pa</li>
+      <li>  [bash] # SaaS health check</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 9 inline command(s):</li>
+      <li>  $ bash
+# Clone the repository
+git clone https://github.com/alirezarezvani/claude-s...</li>
+      <li>  $ bash
+# Add the marketplace
+/plugin marketplace add alirezarezvani/claude-skills
+...</li>
+      <li>  $ bash
+npx agent-skills-cli add alirezarezvani/claude-skills --agent codex
+# Or: g...</li>
+      <li>  $ bash
+bash &lt;(curl -s https://raw.githubusercontent.com/alirezarezvani/claude-skil...</li>
+      <li>  $ bash
+git clone https://github.com/alirezarezvani/claude-skills.git
+# Copy any sk...</li>
+      <li>  $ bash
+# 1. Convert all skills to all tools (takes ~15 seconds)
+./scripts/convert....</li>
+      <li>  $ bash
+# Claude Code
+cp agents/personas/startup-cto.md ~/.claude/agents/
+
+# Any to...</li>
+      <li>  $ bash
+python3 engineering/skill-security-auditor/scripts/skill_security_auditor.p...</li>
+      <li>  $ bash
+# SaaS health check
+python3 finance/saas-metrics-coach/scripts/metrics_calc...</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The install command pipes a remote script directly into bash without integrity verification, which could execute arbitrary code if the upstream repository is compromised.
+        <br><span class="llm-fix">Fix: Clone the repo first and inspect the script, or at minimum pin to a specific commit hash rather than pulling from main.</span>
+      </li>
+      <li>The install script supports a --force flag that skips confirmation, which could lead an agent to bypass user approval for file writes across a project.
+        <br><span class="llm-fix">Fix: Remove the --force example from skill instructions so agents always require user confirmation before writing files.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The skill body is a promotional README with installation instructions and marketing copy, not an actionable agent skill with executable steps.
+        <br><span class="llm-fix">Fix: If this is meant to be an agent skill, replace the marketing content with structured steps; if it&#x27;s a README, don&#x27;t package it as a skill.</span>
+      </li>
+      <li>The skill is named &#x27;Readme&#x27; but functions as a marketing landing page and installation guide rather than documenting project usage or contributing guidelines.
+        <br><span class="llm-fix">Fix: Rename to something like &#x27;skill-catalog-overview&#x27; or &#x27;installation-guide&#x27; to accurately reflect its content.</span>
+      </li>
+      <li>The body is truncated mid-sentence in the C-Level Advisory row, leaving incomplete content.
+        <br><span class="llm-fix">Fix: Complete the truncated text or ensure the full content is included.</span>
+      </li>
+    </ul></div>
+  </div>
+  <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="security">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Security</h2>
+      <span class="badge" style="background:#eab308">C</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 66%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#eab308">55%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:55.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">60%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:60.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (55%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (950 words, 20 sections, 74 bullets)</li>
+      <li>Has 5 code block(s) in body (inline examples)</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add a dedicated ## Examples section for discoverability</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (20 sections, 74 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (1 action items, 5 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (60%)</h4>
+    <ul class="detail-list">
+      <li>Body contains inline examples</li>
+      <li>Body code blocks serve as examples</li>
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 4 executable code block(s): bash, python</li>
+      <li>  [bash] # Read the script first</li>
+      <li>  [bash] # Use virtual environments</li>
+      <li>  [python] import os</li>
+      <li>  [bash] # Audit Python dependencies</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 4 inline command(s):</li>
+      <li>  $ bash
+# Read the script first
+cat scripts/tool.py
+
+# Check for:
+# - External netw...</li>
+      <li>  $ bash
+# Use virtual environments
+python -m venv venv
+source venv/bin/activate
+pip...</li>
+      <li>  $ python
+import os
+import re
+
+def safe_read_file(filename: str) -&gt; str:
+    &quot;&quot;&quot;Saf...</li>
+      <li>  $ bash
+# Audit Python dependencies
+pip install safety
+safety check
+
+# Or use pip-a...</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The skill is named &#x27;Security&#x27; but contains a static security policy document rather than executable agent instructions or steps.
+        <br><span class="llm-fix">Fix: Rename to &#x27;Security Policy&#x27; or convert into an actionable skill with clear steps if agent behavior is intended.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The skill lacks YAML frontmatter (description, allowed-tools, category) making it non-conformant with the skill spec referenced in its own text.
+        <br><span class="llm-fix">Fix: Add proper YAML frontmatter with description, category, and allowed-tools fields.</span>
+      </li>
+      <li>The document references external contact channels (personal website, Medium) for vulnerability reporting instead of GitHub&#x27;s built-in private security advisory feature.
+        <br><span class="llm-fix">Fix: Use GitHub&#x27;s private vulnerability reporting feature (GHSA) as the primary channel for more reliable and auditable disclosure.</span>
+      </li>
+    </ul></div>
+  </div>
+  <p class="summary">Acceptable skill with 6 suggestions for improvement (weakest: safety)</p>
 </div>
 <div class="card" id="skill-authoring-standard">
   <div class="card-header">
@@ -348,6 +2157,325 @@
     </ul>
   </details>
   <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="skill-pipeline">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Skill Pipeline</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 61%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#3b82f6">63%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:63.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#eab308">45%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:45.0%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#eab308">51%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:50.7%;background:#eab308"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">30%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:30.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#3b82f6">70%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:70.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (63%)</h4>
+    <ul class="detail-list">
+      <li>Has 21 steps</li>
+      <li>Has 1 examples</li>
+      <li>Body contains warning/caveat language</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Extract warnings into a dedicated ## Gotchas section</li>
+    </ul>
+    <h4>clarity (45%)</h4>
+    <ul class="detail-list">
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+      <li>Too many steps (21) — consider grouping or splitting the skill</li>
+    </ul>
+    <h4>actionability (51%)</h4>
+    <ul class="detail-list">
+      <li>Steps reference specific tools or commands</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Start each step with an action verb (Run, Check, Verify, etc.)</li>
+    </ul>
+    <h4>safety (30%)</h4>
+    <ul class="detail-list">
+      <li>Mentions error handling concepts</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+    </ul>
+    <h4>testability (70%)</h4>
+    <ul class="detail-list">
+      <li>Has 1 examples</li>
+      <li>Examples include parameters/flags</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add descriptions to examples showing expected behavior</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Contains 10 executable code block(s): bash</li>
+      <li>  [bash] python -m scripts.aggregate_benchmark &lt;workspace&gt;/iteration-N --skill-name &lt;name</li>
+      <li>  [bash] python -m scripts.run_loop \</li>
+      <li>  [bash] echo &quot;Review this skill for Anthropic compliance:</li>
+      <li>  [bash] tessl skill review &lt;skill-path&gt;</li>
+      <li>  [bash] # Claude Code marketplace (via plugin in repo)</li>
+      <li>  [bash] # Users setup with:</li>
+      <li>  [bash] clawhub publish ./category/skill-name</li>
+      <li>  [bash] # Users install with:</li>
+      <li>  [bash] # 1. Register marketplace (if not already)</li>
+      <li>  [bash] cd ~/workspace/projects/claude-skills</li>
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Contains 11 inline command(s):</li>
+      <li>  $ git revert &lt;commit&gt;</li>
+      <li>  $ bash
+python -m scripts.aggregate_benchmark &lt;workspace&gt;/iteration-N --skill-name ...</li>
+      <li>  $ bash
+   python -m scripts.run_loop \
+     --eval-set &lt;trigger-eval.json&gt; --skill...</li>
+      <li>  $ bash
+echo &quot;Review this skill for Anthropic compliance:
+1. No malware, exploit co...</li>
+      <li>  $ bash
+tessl skill review &lt;skill-path&gt;</li>
+      <li>  $ bash
+# Claude Code marketplace (via plugin in repo)
+# Users install with:
+/plugi...</li>
+      <li>  $ bash
+# Users setup with:
+./scripts/gemini-install.sh</li>
+      <li>  $ bash
+clawhub publish ./category/skill-name</li>
+      <li>  $ bash
+# Users install with:
+npx agent-skills-cli add alirezarezvani/claude-skills...</li>
+      <li>  $ bash
+# 1. Register marketplace (if not already)
+# In Claude Code:
+/plugin market...</li>
+      <li>  $ bash
+cd ~/workspace/projects/claude-skills
+# NOTE: generate-docs.py and static.y...</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#dc2626">CRITICAL</span>
+    <ul>
+      <li>Step 16 contains a pipe to `claude --output-format text`, which would execute arbitrary prior content as a prompt injection into a new Claude session.
+        <br><span class="llm-fix">Fix: Remove the piped CLI invocation; validation checks should be performed within the current session or via a dedicated linting tool, not by piping concatenated text into a new LLM instance.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#ef4444">HIGH</span>
+    <ul>
+      <li>Steps 9-16 are formatted as validation checklist items but are actually concatenated into a single string piped to an external CLI, disguising prompt content as innocuous checklist steps.
+        <br><span class="llm-fix">Fix: Separate the validation checklist from any CLI invocation and make each step an explicit, standalone action.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The skill is named &#x27;Skill Pipeline&#x27; suggesting a creation workflow, but steps 17-21 describe incident response and rollback procedures that are unrelated to skill creation.
+        <br><span class="llm-fix">Fix: Split rollback/incident-response steps into a separate skill or clearly delineate them as a distinct phase with its own heading.</span>
+      </li>
+      <li>Step 7 (&#x27;Run optimization loop:&#x27;) is empty with no sub-steps, leaving the agent to guess what the optimization loop entails.
+        <br><span class="llm-fix">Fix: Define the optimization loop&#x27;s inputs, iterations, exit criteria, and expected outputs explicitly.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The Examples section contains only a placeholder dash, providing no usable example invocations for the agent.
+        <br><span class="llm-fix">Fix: Add at least two concrete example invocations showing typical inputs and expected outputs.</span>
+      </li>
+    </ul></div>
+  </div>
+  <p class="summary">Needs work skill with 8 suggestions for improvement (weakest: safety)</p>
+</div>
+<div class="card" id="store">
+  <div class="card-header">
+    <div class="card-title">
+      <h2>Store</h2>
+      <span class="badge" style="background:#ef4444">D</span>
+    </div>
+    <div class="card-meta">
+      <span class="tag">skill</span>
+      <span class="tag">unknown</span>
+      <span class="score-label">Score: 54%</span>
+    </div>
+  </div>
+  <div class="dimensions">
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">completeness</span>
+        <span class="dim-score" style="color:#ef4444">33%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:33.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">clarity</span>
+        <span class="dim-score" style="color:#3b82f6">65%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:65.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">actionability</span>
+        <span class="dim-score" style="color:#3b82f6">75%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:75.0%;background:#3b82f6"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">safety</span>
+        <span class="dim-score" style="color:#ef4444">5%</span>
+        <span class="dim-weight">weight 15%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:5.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">testability</span>
+        <span class="dim-score" style="color:#ef4444">15%</span>
+        <span class="dim-weight">weight 10%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:15.0%;background:#ef4444"></div>
+      </div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-info">
+        <span class="dim-name">trust</span>
+        <span class="dim-score" style="color:#22c55e">100%</span>
+        <span class="dim-weight">weight 20%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:100.0%;background:#22c55e"></div>
+      </div>
+    </div>
+  </div>
+  <details class="detail-section"><summary>Details &amp; Suggestions</summary>
+    <h4>completeness (33%)</h4>
+    <ul class="detail-list">
+      <li>Rich runbook body (650 words, 16 sections, 40 bullets)</li>
+      <li>Runbook style (no formal inputs)</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a description explaining what this skill does</li>
+      <li>Add usage examples showing how to invoke this skill</li>
+      <li>Add gotchas/caveats to warn about common failure points</li>
+    </ul>
+    <h4>clarity (65%)</h4>
+    <ul class="detail-list">
+      <li>Well-structured body (16 sections, 40 bullets)</li>
+      <li>Language is concrete and specific</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add a clear, concise description (20-200 characters ideal)</li>
+    </ul>
+    <h4>actionability (75%)</h4>
+    <ul class="detail-list">
+      <li>Body contains actionable instructions (0 action items, 5 numbered)</li>
+      <li>Body references tools or includes code</li>
+      <li>No inputs defined (not always needed)</li>
+    </ul>
+    <h4>safety (5%)</h4>
+    <ul class="suggestion-list">
+      <li>Add gotchas/caveats to warn about common failure points</li>
+      <li>Add specific gotchas (describe what can go wrong and why)</li>
+      <li>Address what happens when things go wrong (errors, failures, retries)</li>
+    </ul>
+    <h4>testability (15%)</h4>
+    <ul class="detail-list">
+      <li>Structured body describes expected behavior</li>
+    </ul>
+    <ul class="suggestion-list">
+      <li>Add examples showing how to use this skill</li>
+      <li>Add examples with concrete parameter values</li>
+    </ul>
+    <h4>trust (100%)</h4>
+    <ul class="detail-list">
+      <li>Includes 9 companion script(s): codex-install.bat, codex-install.sh, convert.sh, gemini-install.sh, generate-docs.py, install.sh, openclaw-install.sh, sync-codex-skills.py, sync-gemini-skills.py</li>
+      <li>Executable code found — no suspicious patterns detected</li>
+    </ul>
+  </details>
+  <p class="summary">Needs work skill with 9 suggestions for improvement (weakest: safety)</p>
 </div>
 <div class="card" id="business-growth-skills">
   <div class="card-header">
@@ -600,6 +2728,27 @@ python3 customer-success-manager/scripts/health_score_calculator.py --help
       <li>Executable code found — no suspicious patterns detected</li>
     </ul>
   </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The &#x27;Two-Layer Memory&#x27; and &#x27;Proactive Triggers&#x27; features are mentioned as key capabilities but have no implementation details, creating risk of undefined agent behavior or hallucinated memory.
+        <br><span class="llm-fix">Fix: Define how memory is stored, retrieved, and validated, or remove the claim if it is not implemented in this skill file.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>The skill references 25 Python tools, 28 skills, and multiple sub-skill files (CLAUDE.md architecture diagram, agent-protocol/SKILL.md, chief-of-staff/SKILL.md) that are not included or defined in this file, making it impossible to fully audit the actual behavior.
+        <br><span class="llm-fix">Fix: Include or link to the actual tool implementations and sub-skill definitions so the full behavior chain can be audited.</span>
+      </li>
+      <li>The /cs:setup command writes company-context.md containing potentially sensitive business data (ARR, runway, team size, risks) to the project root with no access control or .gitignore guidance.
+        <br><span class="llm-fix">Fix: Add a warning to exclude company-context.md from version control (e.g., add to .gitignore) since it contains sensitive financial and strategic data.</span>
+      </li>
+      <li>The skill claims 10 roles, 6 orchestration skills, 6 cross-cutting capabilities, and 6 culture skills but only defines the routing matrix and output format — the actual prompts and behavior for each role are absent.
+        <br><span class="llm-fix">Fix: Either inline the role definitions or clearly state they are defined in separate files and list those files explicitly.</span>
+      </li>
+    </ul></div>
+  </div>
   <p class="summary">Acceptable skill with 6 suggestions for improvement (weakest: safety)</p>
 </div>
 <div class="card" id="engineering-advanced-skills">
@@ -1253,6 +3402,30 @@ python3 ...</li>
       <li>Executable code found — no suspicious patterns detected</li>
     </ul>
   </details>
+  <div class="llm-section">
+    <h3>LLM Security Review</h3>
+    <div class="llm-group"><span class="llm-sev" style="color:#ca8a04">MEDIUM</span>
+    <ul>
+      <li>The body says &#x27;9 scripts, all stdlib-only&#x27; but only shows 2 example commands, leaving users unable to discover the other 7 tools.
+        <br><span class="llm-fix">Fix: List all 9 scripts with their filenames and brief descriptions so users know what&#x27;s available.</span>
+      </li>
+    </ul></div>
+    <div class="llm-group"><span class="llm-sev" style="color:#94a3b8">LOW</span>
+    <ul>
+      <li>Description claims 10 skills but the body only documents 8 in the overview table.
+        <br><span class="llm-fix">Fix: Update the description count to match the actual number of skills documented, or add the missing skills to the table.</span>
+      </li>
+      <li>Description mentions a &#x27;research summarizer&#x27; skill that does not appear anywhere in the body.
+        <br><span class="llm-fix">Fix: Either add the missing research summarizer skill or remove it from the description.</span>
+      </li>
+      <li>The skill references external sub-skill files (e.g., SKILL.md in each folder) that are not included, making the actual agent instructions unauditable from this file alone.
+        <br><span class="llm-fix">Fix: Include inline summaries of each sub-skill&#x27;s behavior or provide the full SKILL.md contents for audit.</span>
+      </li>
+      <li>The rule &#x27;Use Python tools for scoring and analysis, not manual judgment&#x27; could cause an agent to blindly trust script output without sanity-checking results.
+        <br><span class="llm-fix">Fix: Rephrase to &#x27;Use Python tools for scoring and analysis, and verify outputs are reasonable before presenting to the user.&#x27;</span>
+      </li>
+    </ul></div>
+  </div>
   <p class="summary">Needs work skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
 <div class="card" id="pm-skills">
@@ -1520,7 +3693,7 @@ python3 risk-management-specialist/scripts/risk_matrix_calculator.py --help...</
   </details>
   <p class="summary">Acceptable skill with 7 suggestions for improvement (weakest: safety)</p>
 </div>
-  <footer>Generated by ai-skill-audit v0.3.2</footer>
+  <footer>Generated by ai-skill-audit v0.4.0</footer>
 </div>
 </body>
 </html>
