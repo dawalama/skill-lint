@@ -62,12 +62,14 @@ def score_skill(
     ignore_categories: set[str] | None = None,
     custom_patterns: list[tuple[str, str, str]] | None = None,
     weights: WeightsConfig | None = None,
+    trust_inline: bool = True,
 ) -> list[ScoreDimension]:
     """Score a skill across 6 dimensions. Returns list of ScoreDimension.
 
     custom_patterns: optional list of (regex, description, category) to add
     to the trust scan. Loaded from config file custom patterns section.
     weights: optional WeightsConfig to override default dimension weights.
+    trust_inline: when False, ignore-next-line directives are not honored.
     """
     w = weights or WeightsConfig()
     return [
@@ -76,7 +78,7 @@ def score_skill(
         _score_actionability(artifact, weight=w.actionability),
         _score_safety(artifact, weight=w.safety),
         _score_testability(artifact, weight=w.testability),
-        _score_trust(artifact, ignore_categories=ignore_categories, custom_patterns=custom_patterns, weight=w.trust, entropy_threshold=w.entropy_threshold),
+        _score_trust(artifact, ignore_categories=ignore_categories, custom_patterns=custom_patterns, weight=w.trust, entropy_threshold=w.entropy_threshold, trust_inline=trust_inline),
     ]
 
 
@@ -477,6 +479,7 @@ _EXFILTRATION_PATTERNS = [
     (r"\bwget\b.*--post", "Posts data via wget"),
     (r"\bnc\s+-", "Netcat connection (potential data exfil)"),
     (r"\b(api_key|secret|token|password|credential)\b.*\b(echo|print|log|curl|send)\b", "May leak secrets"),
+    (r"\b(echo|print|log|send)\b.*\b(api_key|secret|token|password|credential)\b", "May leak secrets (credential in output)"),
     (r"\benv\b.*\b(curl|wget|nc|send)\b", "May exfiltrate environment variables"),
     (r"\b(base64|encode)\b.*\b(curl|wget|nc)\b", "Encoded data exfiltration"),
     (r"\b/etc/(passwd|shadow)\b", "Accesses system credential files"),
@@ -486,6 +489,33 @@ _EXFILTRATION_PATTERNS = [
     (r"~/.gnupg/", "Accesses GPG keys"),
     (r"~/\.(kube|docker)/config", "Accesses cloud/container credentials"),
     (r"\bwallet|seed\s*phrase|mnemonic|private\s*key", "References crypto wallet/keys"),
+    # Remote code execution — reverse shells (arXiv:2604.03070 Pattern B1, 52.2% of malicious skills)
+    (r"bash\s+-i\s+>&\s*/dev/tcp/", "Reverse shell via bash /dev/tcp"),
+    (r"\bsocat\b.*\bexec\b", "Socat reverse shell"),
+    (r"\bpython[23]?\s+-c\b.*socket", "Python reverse shell"),
+    # Remote script execution (beyond curl|bash already in SUSPICIOUS_URL)
+    (r"\bwget\b.*\|\s*(sh|bash|zsh)\b", "Pipe wget output to shell"),
+    (r"\bcurl\b.*-o\s+\S+\s*&&\s*(sh|bash|chmod)", "Download and execute via curl"),
+    # Dangerous subprocess/exec calls
+    (r"\bos\.system\s*\(", "os.system call — potential RCE"),
+    (r"\bos\.popen\s*\(", "os.popen call — potential RCE"),
+    (r"\bsubprocess\.(?:run|call|Popen)\s*\(\s*\[?\s*[\"'](?:bash|sh|curl|wget)", "Subprocess launching shell or downloader"),
+    (r"\bchild_process\.exec\b", "Node child_process.exec — potential RCE"),
+    (r"\bexec\.Command\b", "Go exec.Command — potential RCE"),
+    # Credential logging — #1 vulnerability (73.5% of all issues per arXiv:2604.03070)
+    (r"\bprint\s*\(.*\.headers\b", "Printing HTTP headers (may contain Authorization)"),
+    (r"\bprint\s*\(.*\.environ\b", "Printing environment (contains secrets)"),
+    (r"\bprint\s*\(.*(?:api[_-]?key|password|secret|token|credential|auth)", "Printing credentials (credential logging)"),
+    (r"\bconsole\.log\s*\(.*(?:api[_-]?key|password|secret|token|credential|auth)", "Logging credentials to console"),
+    (r"\blogger\.(?:info|debug|warn|error)\s*\(.*(?:password|secret|token|api[_-]?key)", "Logging credentials via logger"),
+    (r"\bprint\s*\(.*(?:config|settings)\b", "Printing config object (may contain credentials)"),
+    (r"\bJSON\.stringify\s*\(.*(?:config|env|credentials)\b", "Serializing config/credentials to string"),
+    # Insecure credential storage (arXiv:2604.03070 Pattern A3)
+    (r"\bcurl\b.*-u\s+\S+:\S+", "Credentials in curl -u argument (visible in process list)"),
+    (r"\bmysql\b.*-p\S+", "Database password in CLI argument (visible in process list)"),
+    (r">\s*/tmp/.*\.(pem|key|crt|env)\b", "Writing credentials to world-readable /tmp"),
+    (r"\becho\b.*(?:key|secret|password|token).*>\s*/tmp/", "Writing secrets to /tmp (world-readable)"),
+    (r"\?(?:api_key|token|secret|password|auth)=", "Credentials in URL query string (logged by proxies)"),
 ]
 
 # --- Code obfuscation ---
@@ -560,6 +590,29 @@ _SUSPICIOUS_URL_PATTERNS = [
     (r"\bpastebin\.com/", "Pastebin URL (common malware hosting)"),
     (r"\bngrok\.io\b", "Ngrok tunnel (potential C2 or exfil endpoint)"),
     (r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}[:/]", "Direct IP address (no DNS = suspicious)"),
+]
+
+# --- Persistence mechanisms (arXiv:2604.03070 Pattern B6) ---
+_PERSISTENCE_PATTERNS: list[tuple[str, str]] = [
+    (r">>\s*~?/?\.ssh/authorized_keys", "Appending to authorized_keys — backdoor installation"),
+    (r"\bcrontab\s+-[el]?\s*.*\|", "Crontab pipe modification — persistence mechanism"),
+    (r"\bsystemctl\s+enable\b", "Enabling systemd service — persistence mechanism"),
+    (r"\blaunchctl\s+load\b.*-w", "Loading persistent launchd agent"),
+    (r"\bchkconfig\b.*\bon\b", "Enabling init.d service — persistence"),
+    (r"~?/?\.bashrc|~?/?\.bash_profile|~?/?\.zshrc|~?/?\.profile", "Modifying shell profile — persistence via shell init"),
+    (r"/etc/rc\.local", "Modifying rc.local — boot persistence"),
+]
+
+# --- Resource hijacking (arXiv:2604.03070 Pattern B5) ---
+_HIJACKING_PATTERNS: list[tuple[str, str]] = [
+    (r"\bxmrig\b", "Cryptocurrency miner (xmrig)"),
+    (r"\bcoinhive\b", "Cryptocurrency miner (coinhive)"),
+    (r"\bcryptonight\b", "Cryptonight mining algorithm"),
+    (r"\bminerd\b", "Cryptocurrency miner daemon"),
+    (r"\bstratum\+tcp://", "Mining pool connection (stratum protocol)"),
+    (r"\bcpuminer\b", "CPU cryptocurrency miner"),
+    (r"\bethmine[r]?\b", "Ethereum miner"),
+    (r"\bnbminer\b", "NB miner"),
 ]
 
 
@@ -669,6 +722,7 @@ def _score_trust(
     custom_patterns: list[tuple[str, str, str]] | None = None,
     weight: float = 0.20,
     entropy_threshold: float = 4.8,
+    trust_inline: bool = True,
 ) -> ScoreDimension:
     """Scan for destructive commands, data exfiltration, obfuscation, and privilege escalation.
 
@@ -679,14 +733,32 @@ def _score_trust(
 
     If ignore_categories is provided, findings in those categories are still
     reported in details but do not deduct from the trust score.
+
+    When trust_inline=False (remote/untrusted content), ignore-next-line
+    directives are not honored — the file cannot suppress its own findings.
     """
+    from ..ignore import IgnoreConfig
+
     score = 1.0  # Start at full trust, deduct for findings
     details: list[str] = []
     suggestions: list[str] = []
     _ignored = {c.upper() for c in (ignore_categories or set())}
 
+    # Pre-process: strip lines covered by ignore-next-line directives,
+    # but only for trusted (local) content. Untrusted files should not
+    # be able to hide lines from scanning.
+    #
+    # Only raw_body is stripped. Parsed fields (steps, gotchas, examples)
+    # may duplicate content from raw_body, so a stripped line can still
+    # match via the parsed copy. This is a known limitation — fixing it
+    # fully would require line-number tracking through the parser.
+    if trust_inline:
+        clean_body = IgnoreConfig.strip_ignored_lines(a.raw_body) if a.raw_body else ""
+    else:
+        clean_body = a.raw_body or ""
+
     # Layer 1: All prose text
-    all_text = f"{' '.join(a.steps)} {a.raw_body} {' '.join(a.gotchas)} {' '.join(a.examples)}"
+    all_text = f"{' '.join(a.steps)} {clean_body} {' '.join(a.gotchas)} {' '.join(a.examples)}"
 
     # Documentation-only text: description + gotchas (used for context-aware filtering)
     # Patterns found ONLY here and nowhere else are likely documenting dangers, not executing them
@@ -734,7 +806,7 @@ def _score_trust(
     # Build "actionable" text — everything except description field
     # Description often documents what the skill *warns about* (e.g., "warns before rm -rf")
     # which is not the same as executing it
-    actionable_texts = [' '.join(a.steps), a.raw_body, ' '.join(a.gotchas), ' '.join(a.examples)]
+    actionable_texts = [' '.join(a.steps), clean_body, ' '.join(a.gotchas), ' '.join(a.examples)]
     for _, code in exec_blocks:
         actionable_texts.append(code)
     for _, content in scripts:
@@ -759,6 +831,8 @@ def _score_trust(
         (_INJECTION_PATTERNS, "INJECTION", True),
         (_SECRET_PATTERNS, "SECRET", False),                # case-sensitive
         (_SUSPICIOUS_URL_PATTERNS, "SUSPICIOUS_URL", True),
+        (_PERSISTENCE_PATTERNS, "PERSISTENCE", True),
+        (_HIJACKING_PATTERNS, "HIJACKING", True),
     ]
 
     for patterns, category, case_insensitive in _ALL_PATTERN_GROUPS:
@@ -806,13 +880,15 @@ def _score_trust(
     # Deduct based on severity
     severity_weights = {
         "INJECTION": 0.50,         # Most critical — 91% of real attacks
+        "PERSISTENCE": 0.45,       # Backdoor installation (arXiv:2604.03070 B6)
+        "HIJACKING": 0.45,         # Crypto mining / resource abuse (B5)
         "OBFUSCATION": 0.40,       # Why hide what you're doing?
         "SECRET": 0.40,            # Hardcoded secrets are always wrong
         "EXFILTRATION": 0.35,      # Sending data out
         "SUSPICIOUS_URL": 0.30,    # curl|bash, IP addresses, shorteners
         "DESTRUCTIVE": 0.25,       # May be intentional but risky
-        "PRIVILEGE": 0.15,         # sudo is common but worth flagging
         "ENTROPY": 0.20,           # High entropy = possible encoded payload
+        "PRIVILEGE": 0.15,         # sudo is common but worth flagging
     }
 
     total_deduction = 0.0

@@ -14,7 +14,15 @@ from pathlib import Path
 # Valid categories that can be ignored
 VALID_CATEGORIES = frozenset({
     "DESTRUCTIVE", "EXFILTRATION", "OBFUSCATION", "PRIVILEGE",
-    "INJECTION", "SECRET", "SUSPICIOUS_URL", "ENTROPY",
+    "INJECTION", "SECRET", "SUSPICIOUS_URL", "PERSISTENCE",
+    "HIJACKING", "ENTROPY",
+})
+
+# Categories too dangerous to suppress inline — a malicious skill can embed
+# <!-- skill-audit: ignore INJECTION --> to hide its own prompt injection.
+# These can only be suppressed via operator-controlled .skill-audit-ignore files.
+UNSUPPRESSIBLE_INLINE = frozenset({
+    "INJECTION", "SECRET", "EXFILTRATION", "PERSISTENCE", "HIJACKING",
 })
 
 # Inline comment patterns
@@ -56,7 +64,7 @@ class IgnoreConfig:
         return result
 
     @staticmethod
-    def parse_inline_ignores(content: str) -> set[str]:
+    def parse_inline_ignores(content: str, trusted: bool = False) -> set[str]:
         """Extract ignored categories from inline HTML comments in markdown.
 
         Supports:
@@ -66,6 +74,10 @@ class IgnoreConfig:
 
         Returns a set of uppercase category names. If ignore-next-line is found,
         all valid categories are returned since it's a blanket suppression.
+
+        When trusted=False (default), critical categories in UNSUPPRESSIBLE_INLINE
+        cannot be suppressed — a malicious file should not be able to hide its own
+        injection or exfiltration findings.
         """
         ignored: set[str] = set()
 
@@ -77,11 +89,37 @@ class IgnoreConfig:
                 if cat in VALID_CATEGORIES:
                     ignored.add(cat)
 
-        # Match ignore-next-line (blanket ignore)
-        if _INLINE_IGNORE_NEXT_LINE_RE.search(content):
-            ignored |= VALID_CATEGORIES
+        # NOTE: ignore-next-line is handled separately by strip_ignored_lines()
+        # which removes lines from scan text rather than suppressing categories
+        # file-wide. It is NOT processed here.
+
+        # Strip critical categories unless the file is explicitly trusted
+        if not trusted:
+            ignored -= UNSUPPRESSIBLE_INLINE
 
         return ignored
+
+    @staticmethod
+    def strip_ignored_lines(content: str) -> str:
+        """Remove lines that follow an ignore-next-line directive.
+
+        Processes <!-- skill-audit: ignore-next-line --> comments and strips
+        both the comment and the following line from the text. This is used
+        by the trust scanner to skip specific lines rather than suppressing
+        categories file-wide.
+        """
+        lines = content.splitlines(keepends=True)
+        result: list[str] = []
+        skip_next = False
+        for line in lines:
+            if skip_next:
+                skip_next = False
+                continue
+            if _INLINE_IGNORE_NEXT_LINE_RE.search(line):
+                skip_next = True
+                continue
+            result.append(line)
+        return "".join(result)
 
 
 def _parse_ignore_file(text: str) -> IgnoreConfig:
@@ -124,12 +162,17 @@ def _parse_ignore_file(text: str) -> IgnoreConfig:
     return config
 
 
-def load_ignore_config(scan_path: Path) -> IgnoreConfig:
+def load_ignore_config(scan_path: Path, *, trust_target_ignore: bool = True) -> IgnoreConfig:
     """Load .skill-audit-ignore from the scan directory, then home directory.
 
     Rules from both files are merged (union). The scan directory file takes
     precedence in the sense that its rules are loaded first, but since we
     merge, both apply.
+
+    When trust_target_ignore=False (used for remote targets), the scan
+    directory's .skill-audit-ignore is skipped — only operator-controlled
+    locations (home dir, ~/.config) are loaded. This prevents a remote
+    repo from shipping its own allowlist to hide findings.
     """
     config = IgnoreConfig()
 
@@ -139,11 +182,11 @@ def load_ignore_config(scan_path: Path) -> IgnoreConfig:
     else:
         scan_dir = scan_path
 
-    # Load from scan directory first, then home directory
-    locations = [
-        scan_dir / ".skill-audit-ignore",
-        Path.home() / ".skill-audit-ignore",
-    ]
+    # Build location list — skip target's ignore file for untrusted sources
+    locations: list[Path] = []
+    if trust_target_ignore:
+        locations.append(scan_dir / ".skill-audit-ignore")
+    locations.append(Path.home() / ".skill-audit-ignore")
 
     for ignore_path in locations:
         if ignore_path.is_file():

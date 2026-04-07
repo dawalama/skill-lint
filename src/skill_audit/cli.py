@@ -142,7 +142,8 @@ def audit(
     llm_provider: Optional[str] = typer.Option(None, "--llm-provider", help="Force LLM provider: claude, openrouter, ollama"),
     llm_model: Optional[str] = typer.Option(None, "--llm-model", help="Override LLM model (e.g. anthropic/claude-sonnet-4-5)"),
     no_cache: bool = typer.Option(False, "--no-cache", help="Skip LLM cache and force fresh review"),
-    include_docs: bool = typer.Option(False, "--include-docs", help="Include documentation files (README, CONTRIBUTING, etc.) in scan"),
+    include_docs: Optional[bool] = typer.Option(None, "--include-docs", help="Include documentation files (README, CONTRIBUTING, etc.) in scan — defaults to True for remote targets"),
+    trust_target_ignore: bool = typer.Option(False, "--trust-target-ignore", help="Honor .skill-audit-ignore files inside remote repos (off by default for safety)"),
 ):
     """Audit a skill or role file for quality and trust.
 
@@ -156,6 +157,8 @@ def audit(
     - Code obfuscation (eval, base64 decode to shell, dynamic imports)
     - Suspicious URLs (curl|bash, IP addresses, URL shorteners)
     - Privilege escalation (sudo, service modification, privileged containers)
+    - Persistence mechanisms (authorized_keys, systemd, shell profiles)
+    - Resource hijacking (crypto miners, mining pool connections)
 
     Use --llm for deeper analysis: intent mismatch detection, sophisticated
     prompt injection, and semantic quality review. Uses claude CLI (zero config),
@@ -187,7 +190,8 @@ def audit(
 
     # Handle remote URLs
     temp_path = None
-    if is_remote(path):
+    _is_remote = is_remote(path)
+    if _is_remote:
         try:
             _stderr.print(f"  [dim]Fetching {path}...[/dim]")
             target, is_temp = fetch_remote(path)
@@ -202,17 +206,25 @@ def audit(
             _stderr.print(f"[red]Not found: {target}[/red]")
             raise typer.Exit(1)
 
+    # For remote targets: default to including docs (they're part of the attack
+    # surface), skip the repo's .skill-audit-ignore (attacker-controlled),
+    # and ignore inline suppression comments (the file shouldn't influence its own audit)
+    if include_docs is None:
+        include_docs = _is_remote  # True for remote, False for local
+    _trust_ignore = trust_target_ignore if _is_remote else True
+    _trust_inline = not _is_remote  # Local files trusted, remote files not
+
     # Load ignore configuration
-    ignore_config = load_ignore_config(target)
+    ignore_config = load_ignore_config(target, trust_target_ignore=_trust_ignore)
 
     skipped = 0
     if target.is_dir():
-        cards, skipped = analyze_directory(target, format, ignore_config=ignore_config, custom_patterns=cfg.custom_patterns or None, weights=cfg.weights, include_docs=include_docs)
+        cards, skipped = analyze_directory(target, format, ignore_config=ignore_config, custom_patterns=cfg.custom_patterns or None, weights=cfg.weights, include_docs=include_docs, trust_inline=_trust_inline)
         if not cards:
             _stderr.print(f"[yellow]No skill/role files found in {target}[/yellow]")
             raise typer.Exit(0)
     else:
-        cards = [analyze_file(target, format, ignore_config=ignore_config, custom_patterns=cfg.custom_patterns or None, weights=cfg.weights)]
+        cards = [analyze_file(target, format, ignore_config=ignore_config, custom_patterns=cfg.custom_patterns or None, weights=cfg.weights, trust_inline=_trust_inline)]
 
     # LLM review (runs before output so HTML can include findings)
     llm_results: dict[str, list] = {}

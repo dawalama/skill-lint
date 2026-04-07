@@ -133,9 +133,9 @@ def _default_model(provider: str) -> str:
     }.get(provider, "unknown")
 
 
-def _cache_key(content: str, provider: str, model: str) -> str:
-    """Generate a cache key from content + provider + model."""
-    h = hashlib.sha256(f"{content}:{provider}:{model}".encode()).hexdigest()[:16]
+def _cache_key(content: str, provider: str, model: str, review_type: str = "skill") -> str:
+    """Generate a cache key from content + provider + model + review_type."""
+    h = hashlib.sha256(f"{content}:{provider}:{model}:{review_type}".encode()).hexdigest()[:16]
     return h
 
 
@@ -205,7 +205,7 @@ def review_skill(content: str, provider: str | None = None,
         )
 
     effective_model = model or _default_model(provider)
-    cache_key = _cache_key(content, provider, effective_model)
+    cache_key = _cache_key(content, provider, effective_model, review_type)
 
     # Check cache
     if not no_cache:

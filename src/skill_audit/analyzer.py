@@ -18,13 +18,14 @@ def analyze_file(
     ignore_config: IgnoreConfig | None = None,
     custom_patterns: list[tuple[str, str, str]] | None = None,
     weights: WeightsConfig | None = None,
+    trust_inline: bool = True,
 ) -> ScoreCard:
     """Analyze a single skill or role file and return a ScoreCard."""
     fmt = force_format or detect_format(path)
     if fmt == "mcp-config":
         return analyze_mcp_config(path)
     artifact = parse_file(path, force_format)
-    return analyze_artifact(artifact, ignore_config=ignore_config, custom_patterns=custom_patterns, weights=weights)
+    return analyze_artifact(artifact, ignore_config=ignore_config, custom_patterns=custom_patterns, weights=weights, trust_inline=trust_inline)
 
 
 def analyze_artifact(
@@ -32,24 +33,31 @@ def analyze_artifact(
     ignore_config: IgnoreConfig | None = None,
     custom_patterns: list[tuple[str, str, str]] | None = None,
     weights: WeightsConfig | None = None,
+    trust_inline: bool = True,
 ) -> ScoreCard:
-    """Score a parsed artifact and return a ScoreCard."""
-    # Collect ignored categories from config + inline comments
+    """Score a parsed artifact and return a ScoreCard.
+
+    When trust_inline=False, inline suppression comments in the file are
+    ignored entirely. This is used for remote/untrusted targets where the
+    file author should not be able to influence their own audit score.
+    """
+    # Collect ignored categories from config file (operator-controlled)
     ignore_categories: set[str] = set()
     if ignore_config is not None:
         file_path = artifact.file_path if hasattr(artifact, "file_path") else None
         ignore_categories |= ignore_config.ignored_categories(file_path)
-    # Parse inline ignores from raw content
-    raw_content = artifact.raw_body or ""
-    inline_ignored = IgnoreConfig.parse_inline_ignores(raw_content)
-    ignore_categories |= inline_ignored
+    # Parse inline ignores from raw content — only if the file is trusted
+    if trust_inline:
+        raw_content = artifact.raw_body or ""
+        inline_ignored = IgnoreConfig.parse_inline_ignores(raw_content)
+        ignore_categories |= inline_ignored
 
     w = weights or WeightsConfig()
 
     if artifact.entity_type == "role":
         dimensions = score_role(artifact, weights=w)
     else:
-        dimensions = score_skill(artifact, ignore_categories=ignore_categories, custom_patterns=custom_patterns, weights=w)
+        dimensions = score_skill(artifact, ignore_categories=ignore_categories, custom_patterns=custom_patterns, weights=w, trust_inline=trust_inline)
 
     card = ScoreCard(
         entity_type=artifact.entity_type,
@@ -90,6 +98,7 @@ def analyze_directory(
     custom_patterns: list[tuple[str, str, str]] | None = None,
     weights: WeightsConfig | None = None,
     include_docs: bool = False,
+    trust_inline: bool = True,
 ) -> tuple[list[ScoreCard], int]:
     """Analyze all skill/role files in a directory.
 
@@ -100,14 +109,14 @@ def analyze_directory(
     Returns (cards, skipped_count) where skipped_count is the number of
     documentation files that were skipped.
     """
-    results, skipped = _scan_level(dir_path, force_format, ignore_config, custom_patterns, weights, include_docs)
+    results, skipped = _scan_level(dir_path, force_format, ignore_config, custom_patterns, weights, include_docs, trust_inline)
 
     # If nothing found, try common container directories
     if not results:
         for subdir_name in ("skills", "roles", "src"):
             subdir = dir_path / subdir_name
             if subdir.is_dir():
-                sub_results, sub_skipped = _scan_level(subdir, force_format, ignore_config, custom_patterns, weights, include_docs)
+                sub_results, sub_skipped = _scan_level(subdir, force_format, ignore_config, custom_patterns, weights, include_docs, trust_inline)
                 results.extend(sub_results)
                 skipped += sub_skipped
 
@@ -121,6 +130,7 @@ def _scan_level(
     custom_patterns: list[tuple[str, str, str]] | None = None,
     weights: WeightsConfig | None = None,
     include_docs: bool = False,
+    trust_inline: bool = True,
 ) -> tuple[list[ScoreCard], int]:
     """Scan a single directory level for skill/role files."""
     results: list[ScoreCard] = []
@@ -142,7 +152,7 @@ def _scan_level(
         if not include_docs and md_file.name.lower() in _DOC_FILES:
             skipped += 1
             continue
-        card = analyze_file(md_file, force_format, ignore_config=ignore_config, custom_patterns=custom_patterns, weights=weights)
+        card = analyze_file(md_file, force_format, ignore_config=ignore_config, custom_patterns=custom_patterns, weights=weights, trust_inline=trust_inline)
         results.append(card)
 
     # Folder-based skills (dirs with main.md or SKILL.md)
@@ -155,7 +165,7 @@ def _scan_level(
         elif (item / "SKILL.md").exists():
             skill_file = item / "SKILL.md"
         if skill_file:
-            card = analyze_file(skill_file, force_format, ignore_config=ignore_config, custom_patterns=custom_patterns, weights=weights)
+            card = analyze_file(skill_file, force_format, ignore_config=ignore_config, custom_patterns=custom_patterns, weights=weights, trust_inline=trust_inline)
             results.append(card)
 
     return results, skipped

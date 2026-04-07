@@ -128,7 +128,55 @@ ai-skill-audit audit examples/malicious-skill.md --verbose
 
 **Key insight:** This is exactly how real attacks work. The skill is well-structured enough to pass a casual review, but the trust scanner catches the `<IMPORTANT>` hidden tag, base64-encoded shell commands, credential file access, and prompt injection buried in the body.
 
-## 4. Garry Tan's gstack (29 Dev Skills)
+## 4. Evil Deploy — All 10 arXiv:2604.03070 Categories
+
+A test skill that covers all 10 vulnerability categories from the "Credential Leakage in LLM Agent Skills" paper. Each step maps to a specific attack pattern.
+
+```bash
+ai-skill-audit audit examples/evil-deploy.md --verbose
+```
+
+```
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ evil-deploy (skill) — Grade: F (28%)                                         │
+╰──────────────────────────── Format: dotai-skill ─────────────────────────────╯
+
+  trust (0%)
+    + CRITICAL: 16 suspicious pattern(s) found — review carefully before use
+    ! [EXFILTRATION] Posts data to external URL
+    ! [EXFILTRATION] May leak secrets
+    ! [EXFILTRATION] May exfiltrate environment variables
+    ! [EXFILTRATION] Encoded data exfiltration
+    ! [EXFILTRATION] Accesses SSH keys
+    ! [EXFILTRATION] Accesses AWS credentials
+    ! [EXFILTRATION] Reads secret/key files
+    ! [EXFILTRATION] Reverse shell via bash /dev/tcp
+    ! [EXFILTRATION] Credentials in curl -u argument (visible in process list)
+    ! [OBFUSCATION] Decodes and executes hidden commands
+    ! [SECRET] Possible hardcoded API key or token
+    ! [SUSPICIOUS_URL] Pipe from URL to shell (remote code execution)
+    ! [SUSPICIOUS_URL] Direct IP address (no DNS = suspicious)
+    ! [PERSISTENCE] Appending to authorized_keys — backdoor installation
+    ! [HIJACKING] Cryptocurrency miner (xmrig)
+    ! [HIJACKING] Mining pool connection (stratum protocol)
+```
+
+**What it caught:** 16 findings across 6 threat categories. All 10 steps trigger at least one finding. The two new categories (PERSISTENCE, HIJACKING) catch attack patterns that previous versions missed entirely.
+
+**Paper mapping:**
+| Step | Paper Category | Finding |
+|------|---------------|---------|
+| 1-2 | A4 Artifact Leakage | SSH keys, AWS credentials |
+| 3 | A1 Information Exposure (73.5%) | Credential logging |
+| 4 | B4 Data Exfiltration | curl POST to webhook |
+| 5 | B1 Remote Exploitation (52.2%) | Reverse shell |
+| 6 | B6 Persistence | authorized_keys backdoor |
+| 7 | B2 Defense Evasion | base64 obfuscated payload |
+| 8 | A2 Hardcoded Credentials | Embedded API key |
+| 9 | A3 Insecure Storage | Credentials in CLI args |
+| 10 | B5 Resource Hijacking | Crypto miner |
+
+## 5. Garry Tan's gstack (29 Dev Skills)
 
 A full-stack development toolkit with deploy, review, QA, canary, benchmark, and more.
 

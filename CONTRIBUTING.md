@@ -13,17 +13,21 @@ uv run pytest tests/ -v
 
 ## Adding detection patterns
 
-Detection patterns live in `src/skill_audit/rubrics/skill_rubrics.py`. Each pattern is a tuple of `(regex, description)` in one of 7 categories:
+Detection patterns live in `src/skill_audit/rubrics/skill_rubrics.py`. Each pattern is a tuple of `(regex, description)` in one of 9 categories:
 
 | Category | Variable | What it catches |
 |----------|----------|----------------|
 | Destructive | `_DESTRUCTIVE_PATTERNS` | Commands that destroy data |
-| Exfiltration | `_EXFILTRATION_PATTERNS` | Sending data to external destinations |
+| Exfiltration | `_EXFILTRATION_PATTERNS` | Sending data out, reverse shells, RCE, credential logging, insecure storage |
 | Obfuscation | `_OBFUSCATION_PATTERNS` | Hidden or encoded code execution |
 | Privilege | `_PRIVILEGE_PATTERNS` | Privilege escalation attempts |
 | Injection | `_INJECTION_PATTERNS` | Prompt injection and jailbreaks |
 | Secrets | `_SECRET_PATTERNS` | Hardcoded API keys and tokens |
 | Suspicious URLs | `_SUSPICIOUS_URL_PATTERNS` | Risky download or callback patterns |
+| Persistence | `_PERSISTENCE_PATTERNS` | Backdoors that survive reboots (authorized_keys, systemd, shell profiles) |
+| Hijacking | `_HIJACKING_PATTERNS` | Crypto miners and mining pool connections |
+
+Pattern coverage is informed by [arXiv:2604.03070](https://arxiv.org/abs/2604.03070) which analyzed 17,022 LLM agent skills and found 1,708 security issues across 10 vulnerability categories.
 
 ### To add a new pattern:
 
