@@ -176,7 +176,25 @@ ai-skill-audit audit examples/evil-deploy.md --verbose
 | 9 | A3 Insecure Storage | Credentials in CLI args |
 | 10 | B5 Resource Hijacking | Crypto miner |
 
-## 5. Garry Tan's gstack (29 Dev Skills)
+## 5. Remote Audit Security Hardening (v0.4.0)
+
+When auditing remote repos, v0.4.0 applies stricter defaults to prevent the audited content from influencing its own score:
+
+```bash
+# Remote audit — hardened by default
+ai-skill-audit audit https://github.com/user/repo --verbose
+
+# What changes for remote targets:
+# - Repo's .skill-audit-ignore file is NOT loaded (use --trust-target-ignore to opt in)
+# - Inline <!-- skill-audit: ignore CATEGORY --> comments are ignored entirely
+# - Documentation files (README, AGENTS.md, CLAUDE.md) ARE scanned (part of attack surface)
+# - Critical categories (INJECTION, SECRET, EXFILTRATION, PERSISTENCE, HIJACKING)
+#   can never be suppressed inline, even for local files
+```
+
+**Why this matters:** A malicious skill author could previously embed `<!-- skill-audit: ignore INJECTION -->` or ship a `.skill-audit-ignore` file to hide their own findings. Now, remote content has zero influence on its audit score.
+
+## 6. Garry Tan's gstack (29 Dev Skills)
 
 A full-stack development toolkit with deploy, review, QA, canary, benchmark, and more.
 
