@@ -14,10 +14,12 @@ The AI skill ecosystem is growing fast — 80k+ community skills across Claude C
 **skill-audit** scores skill and role files across quality and security dimensions so you can:
 
 - **Vet before installing** — is this community skill safe and well-written?
-- **Catch threats** — prompt injection, hardcoded secrets, destructive commands, data exfiltration, obfuscation
+- **Catch threats** — prompt injection, hardcoded secrets, reverse shells, persistence backdoors, crypto miners, credential logging, data exfiltration
 - **Improve what you write** — get specific, actionable feedback on your own skills
 - **Gate quality in CI** — fail pipelines if skill quality drops below a threshold
 - **Scan MCP configs** — audit MCP server configurations for risky permissions and exposed secrets
+
+Threat patterns are continuously updated based on real-world attack research and security publications. See [Research](#research) for the papers and sources that inform our detection rules.
 
 ## What it checks
 
@@ -72,7 +74,7 @@ Grades: **A** (90%+), **B** (80%+), **C** (65%+), **D** (50%+), **F** (<50%)
 
 ## Threat detection patterns
 
-The trust scanner uses 80+ regex patterns across 9 categories, informed by [arXiv:2604.03070](https://arxiv.org/abs/2604.03070) ("Credential Leakage in LLM Agent Skills"). Here are examples of what gets caught:
+The trust scanner uses 80+ regex patterns across 9 categories. Here are examples of what gets caught:
 
 ### Prompt injection
 
@@ -436,6 +438,27 @@ ai-skill-audit config
 | `claude-native` | Claude Code SKILL.md files | `argument-hint`, `compatibility`/`license` in frontmatter, `SKILL.md` filename |
 | `mcp-config` | MCP server configurations | `mcp.json` or `claude_desktop_config.json` filename |
 | `unknown` | Plain markdown | Fallback — still scored as a skill |
+
+## Remote audit hardening
+
+When auditing remote repos, skill-audit applies stricter defaults — the audited content cannot influence its own score:
+
+- **No self-suppression** — the repo's `.skill-audit-ignore` file is not loaded (use `--trust-target-ignore` to opt in)
+- **No inline ignores** — `<!-- skill-audit: ignore CATEGORY -->` comments in the file are ignored
+- **Docs are scanned** — `README.md`, `AGENTS.md`, `CLAUDE.md` are part of the attack surface and included by default
+- **Critical categories are never suppressible inline** — INJECTION, SECRET, EXFILTRATION, PERSISTENCE, and HIJACKING cannot be suppressed via inline comments, even for local files
+
+## Research
+
+Threat patterns are informed by published security research on LLM agent ecosystems. We continuously update detection rules as new attack techniques are documented.
+
+| Source | What it informed |
+|--------|-----------------|
+| [arXiv:2604.03070](https://arxiv.org/abs/2604.03070) — "Credential Leakage in LLM Agent Skills" (2026) | 10 vulnerability categories across 17,022 skills: reverse shells, persistence mechanisms, resource hijacking, credential logging, insecure storage |
+| [ClawHavoc](https://www.spaceraccoon.dev/prompt-injection-ai-agents-mcp/) — MCP prompt injection research | `<IMPORTANT>` hidden instruction tags, conditional rug-pull patterns |
+| OWASP LLM Top 10 | Prompt injection, insecure output handling, supply chain vulnerabilities |
+
+If you've found a novel attack pattern in the wild or in published research, [open an issue](https://github.com/dawalama/skill-audit/issues) or see [CONTRIBUTING.md](CONTRIBUTING.md) for how to add detection patterns.
 
 ## Limitations
 
